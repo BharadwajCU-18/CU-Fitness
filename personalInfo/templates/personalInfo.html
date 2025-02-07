@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
+    <title>Registration Form</title>    
     <style>
         body {
             display: flex;
@@ -12,9 +12,18 @@
             height: 100vh;
             background-color: #f4f4f4;
             font-family: Arial, sans-serif;
+            background-image: url('https://media.licdn.com/dms/image/v2/D5612AQEz_EwPsFSQWw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1705065290862?e=2147483647&v=beta&t=MuslmkQmS6fYHoZBLb3a3HRnq1Kg60pZus8cepQWiGg');
+            background-size: cover;  
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: auto;
+            flex-direction: column;  
+            justify-content: center;  
+            text-align: center; 
         }
+        
         .container {
-            background: white;
+            background: rgba(255, 255, 255, 0.5);;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -24,6 +33,16 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+        }
+        .message {
+            text-align: center;
+            font-size: 24px;
+            color: #800000;
+            padding: 20px;
+            font-weight: bold;
+           /* background-color: rgba(237, 233, 241, 0.895);  /* Dark semi-transparent background for the message */
+            width: 100%;
+            
         }
         .form-group div {
             width: 48%;
@@ -68,9 +87,17 @@
             gap: 5px;
         }
     </style>
+
 </head>
 <body>
+        <!-- Centered Message -->
+        <div class="message">
+            Welcome to CU Fitness! Please complete your registration.
+        </div>
+    <!-- <img src="{% static 'images/gym.jpg' %}" alt="Gym Image"> -->
+  <!-- <img class = center src = "https://media.licdn.com/dms/image/v2/D5612AQEz_EwPsFSQWw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1705065290862?e=2147483647&v=beta&t=MuslmkQmS6fYHoZBLb3a3HRnq1Kg60pZus8cepQWiGg" alt="Image"> -->
     <div class="container">
+        <!-- <img src = "https://media.licdn.com/dms/image/v2/D5612AQEz_EwPsFSQWw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1705065290862?e=2147483647&v=beta&t=MuslmkQmS6fYHoZBLb3a3HRnq1Kg60pZus8cepQWiGg" alt="Image"> -->
         <h3>Personal Information</h3>
         <form action="#">
             <div class="form-group">
