@@ -16,14 +16,12 @@
             background-size: cover;  
             background-position: center;
             background-repeat: no-repeat;
-            padding: auto;
             flex-direction: column;  
-            justify-content: center;  
             text-align: center; 
         }
         
         .container {
-            background: rgba(255, 255, 255, 0.5);;
+            background: rgba(255, 255, 255, 0.5);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -40,9 +38,7 @@
             color: #800000;
             padding: 20px;
             font-weight: bold;
-           /* background-color: rgba(237, 233, 241, 0.895);  /* Dark semi-transparent background for the message */
             width: 100%;
-            
         }
         .form-group div {
             width: 48%;
@@ -87,49 +83,63 @@
             gap: 5px;
         }
     </style>
-
 </head>
 <body>
-        <!-- Centered Message -->
-        <div class="message">
-            Welcome to CU Fitness! Please complete your registration.
-        </div>
-    <!-- <img src="{% static 'images/gym.jpg' %}" alt="Gym Image"> -->
-  <!-- <img class = center src = "https://media.licdn.com/dms/image/v2/D5612AQEz_EwPsFSQWw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1705065290862?e=2147483647&v=beta&t=MuslmkQmS6fYHoZBLb3a3HRnq1Kg60pZus8cepQWiGg" alt="Image"> -->
+    <!-- Centered Message -->
+    <div class="message">
+        Welcome to CU Fitness! Please complete your registration.
+    </div>
+
     <div class="container">
-        <!-- <img src = "https://media.licdn.com/dms/image/v2/D5612AQEz_EwPsFSQWw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1705065290862?e=2147483647&v=beta&t=MuslmkQmS6fYHoZBLb3a3HRnq1Kg60pZus8cepQWiGg" alt="Image"> -->
         <h3>Personal Information</h3>
-        <form action="#">
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            <!-- Error Messages -->
+            {% if form.errors %}
+                <div style="color: red;">
+                    <p>Please fix the following errors:</p>
+                    <ul>
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
             <div class="form-group">
                 <div>
                     <label>First Name</label>
-                    <input type="text" placeholder="First Name" required>
+                    {{ form.first_name }}
                 </div>
                 <div>
                     <label>Last Name</label>
-                    <input type="text" placeholder="Last Name" required>
+                    {{ form.last_name }}
                 </div>
                 <div>
                     <label>Username</label>
-                    <input type="text" placeholder="User Name" required>
+                    {{ form.username }}
                 </div>
                 <div>
                     <label>Email</label>
-                    <input type="email" placeholder="Email" required>
+                    {{ form.email }}
                 </div>
                 <div>
                     <label>Phone Number</label>
-                    <input type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                    {{ form.phone_number }}
                 </div>
                 <div>
                     <label>Password</label>
-                    <input type="password" placeholder="Password" required>
+                    {{ form.password1 }}
                 </div>
                 <div>
                     <label>Confirm Password</label>
-                    <input type="password" placeholder="Confirm your password" required>
+                    {{ form.password2 }}
                 </div>
             </div>
+            
             <div class="gender-section">
                 <label>Gender</label>
                 <div class="gender-options">
@@ -138,10 +148,13 @@
                     <label><input type="radio" name="gender" value="prefer-not"> Prefer not to say</label>
                 </div>
             </div>
+            
             <div>
                 <input type="submit" value="Next">
             </div>
         </form>
+
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </div>
 </body>
 </html>
