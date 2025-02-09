@@ -8,3 +8,16 @@ urlpatterns = [
     path('dashboard/', dashboard_view, name='dashboard'),
     path('logout/', logout_view, name='logout'),
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
