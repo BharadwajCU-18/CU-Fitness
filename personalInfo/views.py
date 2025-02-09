@@ -7,8 +7,8 @@ from django.template import loader
 def personalInfo(request):
     template = loader.get_template('personalInfo.html')
     return HttpResponse(template.render())
-def FitnessInformation(request):
-    template = loader.get_template('FitnessInformation.html')
+def fitnessInfo(request):
+    template = loader.get_template('fitnessInfo.html')
     return HttpResponse(template.render())
 
 
