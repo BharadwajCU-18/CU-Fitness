@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ed1670f-2e36-45eb-9579-31935c4ced17" name="Changes" comment="Fitness Information commit 3" />
+    <list default="true" id="2f7d5c9f-7ec4-4978-8ca1-621f056b6b47" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/personalInfo/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/personalInfo/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/personalInfo/templates/FitnessInformation.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/personalInfo/templates/personalInfo/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/templates/personalInfo/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/personalInfo/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/personalInfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,10 +51,15 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;FitnessInformation&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#4 on main&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/personalInfo/templates/personalInfo" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -56,7 +70,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3ed1670f-2e36-45eb-9579-31935c4ced17" name="Changes" comment="" />
+      <changelist id="2f7d5c9f-7ec4-4978-8ca1-621f056b6b47" name="Changes" comment="" />
       <created>1738723396937</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
