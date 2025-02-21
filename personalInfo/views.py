@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import RegistrationForm
+from .forms import RegistrationForm, FitnessInformationForm
 
 # Home page (Welcome)
 def home_view(request):
@@ -13,10 +13,24 @@ def register_view(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  
+            return redirect('fitnessInformation')
     else:
         form = RegistrationForm()
     return render(request, 'personalInfo/register.html', {'form': form})
+
+# fitnessInformation page
+def fitnessInformation_view(request):
+    if request.method == "POST":
+        form = FitnessInformationForm(request.POST)
+        if form.is_valid():
+            fitness_info = form.save(commit=False)
+            fitness_info.user = request.user  # Associate fitness info with logged-in user
+            fitness_info.save()
+            return redirect('login')  # Redirect to login page after form submission
+    else:
+        form = FitnessInformationForm()
+
+    return render(request, 'personalInfo/fitnessInformation.html', {'form': form})
 
 # Login page
 def login_view(request):
@@ -40,3 +54,4 @@ def dashboard_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'personalInfo/logout.html')
+
