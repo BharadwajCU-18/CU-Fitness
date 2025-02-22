@@ -2,13 +2,90 @@
 <html lang="en">
 <head>
     <title>Welcome to CU Fitness</title>
+    {% load static %}
+
+    <style>
+        /* Set the background image */
+        body {
+            background-image: url("{% static 'images/p1.png' %}");  
+            background-size: contain;  
+            background-position: center center; 
+            height: 100vh;  
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            background-attachment: fixed;
+        }
+
+        /* Styling for the logo */
+        #logo {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%); 
+            filter: brightness(1.5); 
+        }
+
+        #logo img {
+            width: 150px;  
+        }
+
+        
+        #content {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);  
+            border-radius: 10px;
+        }
+
+        #content h2 {
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        #content p {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        #content button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;  
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #content button:hover {
+            background-color: #45a049;  
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome to CU Fitness!</h2>
-    <p>If you're new, click below to register:</p>
-    <a href="{% url 'register' %}"><button>Register</button></a>
-    
-    <p>Already a member? Click below to login:</p>
-    <a href="{% url 'login' %}"><button>Login</button></a>
+
+    <!-- Logo at the top -->
+    <div id="logo">
+        <img src="{% static 'images/logo.png' %}" alt="CU Fitness Logo">
+    </div>
+
+    <!-- Content in the center -->
+    <div id="content">
+        <h2>Welcome to CU Fitness!</h2>
+        <p>If you're new, click below to register:</p>
+        <a href="{% url 'register' %}"><button>Register</button></a>
+
+        <p>Already a member? Click below to login:</p>
+        <a href="{% url 'login' %}"><button>Login</button></a>
+
+        <p>Need assistance? Click below to chat with our bot:</p>
+        <a href="{% url 'chatbot_home' %}"><button>Chat with our bot</button></a>
+    </div>
+
 </body>
 </html>
