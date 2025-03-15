@@ -43,12 +43,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
 from .forms import RegistrationForm, FitnessInformationForm
-=======
 from .forms import RegistrationForm
 from django.http import JsonResponse
->>>>>>> ui-ux-chatbot
+
 
 # Home page (Welcome)
 def home_view(request):
@@ -65,7 +63,6 @@ def register_view(request):
         form = RegistrationForm()
     return render(request, 'personalInfo/register.html', {'form': form})
 
-<<<<<<< HEAD
 # fitnessInformation page
 def fitnessInformation_view(request):
     if request.method == "POST":
@@ -79,12 +76,10 @@ def fitnessInformation_view(request):
         form = FitnessInformationForm()
 
     return render(request, 'personalInfo/fitnessInformation.html', {'form': form})
-=======
 def fitnessInformation_view(request):
     if request.method == "POST":
         return redirect('login')  
     return render(request, 'personalInfo/fitnessinformation.html')
->>>>>>> ui-ux-chatbot
 
 # Login page
 def login_view(request):
@@ -109,8 +104,7 @@ def logout_view(request):
     logout(request)
     return render(request, 'personalInfo/logout.html')
 
-<<<<<<< HEAD
-=======
+
 def chatbot_home(request):
     return render(request, 'personalinfo/chatbot.html')
 
@@ -130,4 +124,3 @@ def chatbot_response(request):
         response = "I'm here to help you with fitness plans and tips! How can I assist you today?"
 
     return JsonResponse({"response": response})
->>>>>>> ui-ux-chatbot
