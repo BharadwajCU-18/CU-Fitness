@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Personalized Suggestions</title>
+    {% load static %}
+    <style>
+        /* Add some basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h2, h3 {
+            color: #4CAF50;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Personalized Suggestions</h2>
+
+    <h3>Workouts</h3>
+    <ul>
+        {% for workout in workouts %}
+            <li>{{ workout.name }} - {{ workout.category }}</li>
+            
+            <a href="{% url 'submit_feedback' item_type='workout' item_id=workout.id %}" >Give Feedback on {{ workout.name }}</a><br>
+
+        {% empty %}
+            <li>No personalized workouts available.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Meals</h3>
+    <ul>
+        {% for meal in meals %}
+            <li>{{ meal.name }} - {{ meal.category }}</li>
+            <a href="{% url 'submit_feedback' item_type='meal' item_id=meal.id %}" >Give Feedback on {{ meal.name }}</a><br>
+        {% empty %}
+            <li>No personalized meals available.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
