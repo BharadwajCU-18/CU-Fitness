@@ -14,3 +14,7 @@ class FitnessInformation(models.Model):
 
     def __str__(self):
         return f"Fitness Info: {self.age} years old"
+    
+
+
+
