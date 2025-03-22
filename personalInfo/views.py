@@ -55,3 +55,9 @@ def logout_view(request):
     logout(request)
     return render(request, 'personalInfo/logout.html')
 
+def generate_report(request):
+    return render(request, 'report.html')
+
+
+
+
