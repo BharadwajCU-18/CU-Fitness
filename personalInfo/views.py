@@ -104,6 +104,7 @@ def logout_view(request):
     logout(request)
     return render(request, 'personalInfo/logout.html')
 
+<<<<<<< HEAD
 
 
 def chatbot_home(request):
@@ -131,3 +132,5 @@ def generate_report(request):
 
 
 
+=======
+>>>>>>> personalize-chatbot-responses
