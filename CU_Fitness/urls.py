@@ -23,10 +23,18 @@
 #     #  path('registration/', include('registration.urls')),
 
 # ]
+
 from django.contrib import admin
 from django.urls import path, include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('personalInfo/', include('personalInfo.urls')),  # Include personalInfo app URLs
+    path('fitness/', include('fitness.urls')),
 ]
+
+
+
+
+
