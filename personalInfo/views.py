@@ -105,6 +105,7 @@ def logout_view(request):
     return render(request, 'personalInfo/logout.html')
 
 
+
 def chatbot_home(request):
     return render(request, 'personalinfo/chatbot.html')
 
@@ -124,3 +125,9 @@ def chatbot_response(request):
         response = "I'm here to help you with fitness plans and tips! How can I assist you today?"
 
     return JsonResponse({"response": response})
+def generate_report(request):
+    return render(request, 'report.html')
+
+
+
+

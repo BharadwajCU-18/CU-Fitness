@@ -1,5 +1,6 @@
 # In your urls.py
 from django.urls import path
+import personalInfo.views as views
 from .views import home_view, register_view, fitnessInformation_view, login_view, dashboard_view, logout_view
 # from django.urls import path
 # from .views import home_view, register_view, login_view, dashboard_view, logout_view
@@ -24,5 +25,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('chat/', chatbot_home, name='chatbot_home'),
     path('chatbot/', chatbot_response, name='chatbot'),
+    path('generate_report/', views.generate_report, name='generate_report'),
 ]
+
 
