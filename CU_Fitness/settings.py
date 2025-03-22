@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'personalInfo',
     'chatbot',
     'rest_framework', 
+    'fitness',
 ]
 
 MIDDLEWARE = [
