@@ -50,7 +50,8 @@ from django.http import JsonResponse
 
 # Home page (Welcome)
 def home_view(request):
-    return render(request, 'personalInfo/home.html')
+    # return render(request, 'personalInfo/home.html')
+    return render(request, 'home/home.html')
 
 # Register page → Redirect to Fitness Information Page
 def register_view(request):
@@ -97,7 +98,8 @@ def login_view(request):
 # Dashboard (Only for logged-in users)
 @login_required
 def dashboard_view(request):
-    return render(request, 'personalInfo/dashboard.html')
+    # return render(request, 'personalInfo/dashboard.html')
+    return render(request, 'home/home.html')
 
 # Logout
 def logout_view(request):
