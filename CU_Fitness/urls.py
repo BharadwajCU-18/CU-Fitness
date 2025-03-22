@@ -23,21 +23,6 @@
 #     #  path('registration/', include('registration.urls')),
 
 # ]
-<<<<<<< HEAD
-
-# from django.contrib import admin
-# from django.urls import path, include
-# from personalInfo.views import home_view
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('', home_view, name='home'),
-#     path('personalInfo/', include('personalInfo.urls')), 
-# ]
-
-=======
-
->>>>>>> personalize-chatbot-responses
 from django.contrib import admin
 from django.urls import path, include
 from personalInfo.views import home_view
@@ -47,13 +32,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('personalInfo/', include('personalInfo.urls')),  
     path('', home_view, name='home'),
-<<<<<<< HEAD
-=======
     path('chatbot/', include('chatbot.urls')),
     path('personalInfo/', include('personalInfo.urls')),  # Include personalInfo app URLs
->>>>>>> personalize-chatbot-responses
     path('fitness/', include('fitness.urls')),
 
+    # path('', home_view, name='home'),
+    path('mealSuggestions/', include('mealSuggestions.urls')),  # Include mealSuggestions app URLs
+    path('home/', include('home.urls')), #include home app urls
 ]
 
 
