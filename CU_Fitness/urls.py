@@ -23,22 +23,23 @@
 #     #  path('registration/', include('registration.urls')),
 
 # ]
-# from django.contrib import admin
-# from django.urls import path, include
-# from personalInfo.views import home_view
 
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('', home_view, name='home'),
-#     path('personalInfo/', include('personalInfo.urls')), 
-# ]
 from django.contrib import admin
 from django.urls import path, include
 from personalInfo.views import home_view
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('personalInfo/', include('personalInfo.urls')),  
     path('', home_view, name='home'),
-     path('chatbot/', include('chatbot.urls')),
+    path('chatbot/', include('chatbot.urls')),
+    path('personalInfo/', include('personalInfo.urls')),  # Include personalInfo app URLs
+    path('fitness/', include('fitness.urls')),
+
 ]
+
+
+
+
+
