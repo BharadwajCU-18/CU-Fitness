@@ -50,8 +50,8 @@ from django.http import JsonResponse
 
 # Home page (Welcome)
 def home_view(request):
-    # return render(request, 'personalInfo/home.html')
-    return render(request, 'home/home.html')
+    return render(request, 'personalInfo/home.html')
+    # return render(request, 'home/home.html')
 
 # Register page → Redirect to Fitness Information Page
 def register_view(request):
@@ -90,7 +90,8 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')  # Redirects to dashboard after login
+            # return redirect('dashboard')  # Redirects to dashboard after login
+            return redirect('home')
         else:
             return render(request, 'personalInfo/login.html', {'error': 'Invalid credentials'})
     return render(request, 'personalInfo/login.html')
