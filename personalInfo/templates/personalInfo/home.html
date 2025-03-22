@@ -84,7 +84,22 @@
         <a href="{% url 'login' %}"><button>Login</button></a>
 
         <p>Need assistance? Click below to chat with our bot:</p>
-        <a href="{% url 'chatbot_home' %}"><button>Chat with our bot</button></a>
+        <!-- personalinfo/profile.html -->
+        <a href="{% url 'set_preferences' %}"><button>Set Preferences</button></a><br>
+
+        <!-- Personalized Suggestions Link -->
+        <a href="{% url 'personalized_suggestions' %}"><button>View Personalized Suggestions</button></a><br>
+
+        <!-- Feedback Links for Workouts and Meals -->
+        {% for workout in workouts %}
+            <a href="{% url 'feedback_form' 'workout' workout.id %}"><button>Give Feedback on {{ workout.name }}</button></a><br>
+        {% endfor %}
+
+        {% for meal in meals %}
+            <a href="{% url 'feedback_form' 'meal' meal.id %}"><button>Give Feedback on {{ meal.name }}</button></a><br>
+        {% endfor %}
+        
+
     </div>
 
 </body>

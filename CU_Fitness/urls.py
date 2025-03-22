@@ -38,6 +38,7 @@ from personalInfo.views import home_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('personalInfo/', include('personalInfo.urls')),  # Include personalInfo app URLs
+    path('personalInfo/', include('personalInfo.urls')),  
     path('', home_view, name='home'),
+     path('chatbot/', include('chatbot.urls')),
 ]
