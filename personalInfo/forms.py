@@ -18,3 +18,4 @@ class FitnessInformationForm(forms.ModelForm):
         model = FitnessInformation
         fields = ['age', 'height', 'weight', 'dietary_preferences', 'fitness_goals']
 
+

@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f7d5c9f-7ec4-4978-8ca1-621f056b6b47" name="Changes" comment="">
+    <list default="true" id="2f7d5c9f-7ec4-4978-8ca1-621f056b6b47" name="Changes" comment="Fitness Information commit 4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personalInfo/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personalInfo/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personalInfo/templates/FitnessInformation.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personalInfo/templates/personalInfo/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/templates/personalInfo/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personalInfo/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personalInfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/personalInfo/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,13 +101,22 @@
       <option name="project" value="LOCAL" />
       <updated>1739065805756</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fitness Information commit 4">
+      <option name="closed" value="true" />
+      <created>1740111439117</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1740111439117</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fitness Information commit1" />
     <MESSAGE value="Fitness Information commit 2" />
     <MESSAGE value="Fitness Information commit 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fitness Information commit 3" />
+    <MESSAGE value="Fitness Information commit 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fitness Information commit 4" />
   </component>
 </project>
