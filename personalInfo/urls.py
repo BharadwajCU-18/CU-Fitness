@@ -11,7 +11,7 @@
 #     path('logout/', logout_view, name='logout'),
 # ]
 from django.urls import path, include
-from .views import home_view, register_view, fitnessInformation_view, login_view, dashboard_view, logout_view
+from .views import home_view, register_view, fitnessInformation_view, login_view, dashboard_view, logout_view, chatbot_home, chatbot_response
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -21,8 +21,8 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('dashboard/', dashboard_view, name='dashboard'),
     path('logout/', logout_view, name='logout'),
-    # path('chat/', chatbot_home, name='chatbot_home'),
-    # path('chatbot/', chatbot_response, name='chatbot'),
+    path('chat/', chatbot_home, name='chatbot_home'),
+    path('chatbot/', chatbot_response, name='chatbot'),
     path('chatbot/', include('chatbot.urls')), 
 ]
 
