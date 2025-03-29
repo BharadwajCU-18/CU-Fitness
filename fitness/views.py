@@ -1,39 +1,37 @@
-# from django.shortcuts import render
-# from .forms import FitnessForm
-# from .models import FitnessReport
+from django.shortcuts import render, redirect
+from .forms import FitnessProgressForm
 
-# def fitness_dashboard(request):
-#     if request.method == 'POST':
-#         form = FitnessForm(request.POST)
-#         if form.is_valid():
-#             report = form.save()  # Save the form data to the database
-#             calories_burned = report.calculate_calories_burned()  # Calculate total calories burned
-#             return render(request, 'fitness/report.html', {'form': form, 'calories_burned': calories_burned})
-#     else:
-#         form = FitnessForm()
-
-#     return render(request, 'fitness/dashboard.html', {'form': form})
-
-
-from django.shortcuts import render
-from .forms import FitnessForm
 from .models import FitnessReport
 
 def fitness_dashboard(request):
     if request.method == 'POST':
-        form = FitnessForm(request.POST)
+        form = FitnessProgressForm(request.POST)
         if form.is_valid():
-            # Save the form data to the database
-            report = form.save()
-
-            # Ensure the calculate_calories_burned method exists in the FitnessReport model
-            calories_burned = report.calculate_calories_burned()  
-
-            # Render the 'report' template with form and calories burned info
-            return render(request, 'fitness/report.html', {'form': form, 'calories_burned': calories_burned})
+            form.save()  # Save the form data to the database
+            return redirect('fitness_dashboard')  # Redirect back to the form page
     else:
-        form = FitnessForm()
+        form = FitnessProgressForm()
 
-    # If GET request or form not valid, render the dashboard template with the form
     return render(request, 'fitness/dashboard.html', {'form': form})
 
+
+# views.py
+
+
+def fitness_report_chart(request):
+    # Get the data from the database
+    fitness_reports = FitnessReport.objects.all()
+    dates = [report.date.strftime('%Y-%m-%d') for report in fitness_reports]
+    steps = [report.steps for report in fitness_reports]
+    cardio_time = [report.cardio_time for report in fitness_reports]
+    cool_down_time = [report.cool_down_time for report in fitness_reports]
+    
+
+    context = {
+        'dates': dates,
+        'steps': steps,
+        'cardio_time': cardio_time,
+        'cool_down_time': cool_down_time,
+    }
+
+    return render(request, 'fitness/report_chart.html', context)

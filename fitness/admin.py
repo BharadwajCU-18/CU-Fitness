@@ -1,3 +1,5 @@
 from django.contrib import admin
+from fitness.models import FitnessReport
 
-# Register your models here.
+
+admin.site.register(FitnessReport)  
