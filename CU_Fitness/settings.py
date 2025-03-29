@@ -61,7 +61,9 @@ ROOT_URLCONF = 'CU_Fitness.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'fitness/templates',
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
