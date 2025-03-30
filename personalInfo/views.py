@@ -45,7 +45,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm, FitnessInformationForm
 from .forms import RegistrationForm
-from django.http import JsonResponse
 
 
 # Home page (Welcome)
@@ -77,10 +76,10 @@ def fitnessInformation_view(request):
         form = FitnessInformationForm()
 
     return render(request, 'personalInfo/fitnessInformation.html', {'form': form})
-def fitnessInformation_view(request):
-    if request.method == "POST":
-        return redirect('login')  
-    return render(request, 'personalInfo/fitnessinformation.html')
+# def fitnessInformation_view(request):
+#     if request.method == "POST":
+#         return redirect('login')  
+#     return render(request, 'personalInfo/fitnessinformation.html')
 
 # Login page
 def login_view(request):
@@ -106,23 +105,42 @@ def dashboard_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'personalInfo/logout.html')
-def chatbot_home(request):
-    return render(request, 'personalinfo/chatbot.html')
+# def chatbot_home(request):
+#     return render(request, 'personalinfo/chatbot.html')
 
-def chatbot_response(request):
-    user_message = request.GET.get("message", "").lower()
+# def chatbot_response(request):
+#     user_message = request.GET.get("message", "").lower()
 
-    # Define some basic responses
-    if "workout" in user_message:
-        response = "What kind of workout are you looking for? (e.g., cardio, strength, flexibility)"
-    elif "beginner" in user_message:
-        response = "For beginners, I suggest 3 sets of 10 push-ups, 15-minute cardio, and stretching exercises."
-    elif "nutrition" in user_message:
-        response = "For good nutrition, try eating lean proteins, vegetables, and whole grains."
-    elif "motivational" in user_message:
-        response = "Keep going! Your effort will pay off. You’re doing great!"
-    else:
-        response = "I’m here to help you with fitness plans and tips! How can I assist you today?"
+#     # Define some basic responses
+#     if "workout" in user_message:
+#         response = "What kind of workout are you looking for? (e.g., cardio, strength, flexibility)"
+#     elif "beginner" in user_message:
+#         response = "For beginners, I suggest 3 sets of 10 push-ups, 15-minute cardio, and stretching exercises."
+#     elif "nutrition" in user_message:
+#         response = "For good nutrition, try eating lean proteins, vegetables, and whole grains."
+#     elif "motivational" in user_message:
+#         response = "Keep going! Your effort will pay off. You’re doing great!"
+#     else:
+#         response = "I’m here to help you with fitness plans and tips! How can I assist you today?"
 
-    return JsonResponse({"response": response})
+#     return JsonResponse({"response": response})
+# personalinfo/views.py
+
+
+# openai.api_key = settings.OPENAI_API_KEY
+
+
+# Set up OpenAI API key
+# openai.api_key = settings.OPENAI_API_KEY
+
+
+
+# def generate_session_id():
+#     return str(uuid.uuid4())  # Generate a unique session ID using UUID
+
+
+
+
+# Make sure you have your OpenAI API key set up correctly.
+
 

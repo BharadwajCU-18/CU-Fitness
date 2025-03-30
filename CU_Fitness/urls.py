@@ -33,7 +33,7 @@ urlpatterns = [
     path('personalInfo/', include('personalInfo.urls')),  
     path('', home_view, name='home'),
     path('chatbot/', include('chatbot.urls')),
-    path('personalInfo/', include('personalInfo.urls')),  # Include personalInfo app URLs
+    # path('personalInfo/', include('personalInfo.urls')),  # Include personalInfo app URLs
     path('fitness/', include('fitness.urls')),
 
     # path('', home_view, name='home'),
