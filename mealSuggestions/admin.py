@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mealSuggestions.models import Meal, FavoriteMeal
+from mealSuggestions.models import Meal, FavoriteMeal, RecommendationFeedback
 
 # Register your models here.
 # admin.site.register(Meal)  # Register the Meal model with the admin site.
@@ -14,3 +14,4 @@ class MealAdmin(admin.ModelAdmin):
         "budget",
     )
 admin.site.register(FavoriteMeal)  # Register the FavoriteMeal model with the admin site.
+admin.site.register(RecommendationFeedback)  # Register the RecommendationFeedback model with the admin site.

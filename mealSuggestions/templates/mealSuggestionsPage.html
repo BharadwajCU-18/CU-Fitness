@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meal Suggestions</title>
-  <script>
-    function openForm() {
-      document.getElementById("mealFormModal").style.display = "block";
-    }
-    function closeForm() {
-      document.getElementById("mealFormModal").style.display = "none";
-    }
-  </script>
+{% extends "base.html" %}
+
+{% block title %}Meal Suggestions{% endblock %}
+
+{% block extra_css %}
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
     .modal {
       display: none;
       position: fixed;
@@ -25,15 +12,15 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0,0,0,0.5);
     }
     .modal-content {
-      background-color: white;
+      background-color: #fff;
       padding: 20px;
       margin: 10% auto;
       width: 40%;
       border-radius: 8px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
     .close {
       float: right;
@@ -48,7 +35,7 @@
     .styled-form label {
       font-weight: bold;
     }
-    .styled-form select, 
+    .styled-form select,
     .styled-form input {
       width: 100%;
       padding: 10px;
@@ -58,7 +45,7 @@
     }
     .styled-form button {
       background-color: #28a745;
-      color: white;
+      color: #fff;
       border: none;
       padding: 10px;
       font-size: 16px;
@@ -82,12 +69,41 @@
     th {
       background-color: #f4f4f4;
     }
+    a.meal-link {
+      color: #007bff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    a.meal-link:hover {
+      text-decoration: underline;
+    }
+    .feedback-popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 100;
+      width: 350px;
+    }
+    .close-feedback {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .meal-feedback {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ccc;
+    }
   </style>
-</head>
-<body>
+{% endblock %}
 
+{% block content %}
   <h1>Meal Suggestions</h1>
-
   <button onclick="openForm()">Get Meal Suggestions</button>
 
   <div id="mealFormModal" class="modal">
@@ -102,41 +118,47 @@
     </div>
   </div>
 
-  {% if meals %}
-    <h2>Matching Meals</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Dietary Restrictions</th>
-          <th>Fitness Goal</th>
-          <th>Meal Type</th>
-          <th>Time Required (min)</th>
-          <th>Budget (CAD)</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for meal in meals %}
+  {% if search_done %}
+    {% if meals %}
+      <h2>Matching Meals</h2>
+      <table>
+        <thead>
           <tr>
-            <td>{{ meal.name }}</td>
-            <td>{{ meal.dietary_restrictions }}</td>
-            <td>{{ meal.fitness_goals }}</td>
-            <td>{{ meal.meal_type }}</td>
-            <td>{{ meal.time_required }}</td>
-            <td>${{ meal.budget }}</td>
-            <td>
-              <form method="post" action="{% url 'add_to_favorites' meal.id %}">
-                {% csrf_token %}
-                <button type="submit">Add to Favorites</button>
-              </form>
-            </td>
+            <th>Name</th>
+            <th>Dietary Restrictions</th>
+            <th>Fitness Goal</th>
+            <th>Meal Type</th>
+            <th>Time Required (min)</th>
+            <th>Budget (CAD)</th>
+            <th>Action</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No matching meals found. Try adjusting your preferences.</p>
+        </thead>
+        <tbody>
+          {% for meal in meals %}
+            <tr>
+              <td>
+                <a href="#" class="meal-link" onclick="showInstructions('{{ meal.instructions }}'); return false;">
+                  {{ meal.name }}
+                </a>
+              </td>
+              <td>{{ meal.dietary_restrictions }}</td>
+              <td>{{ meal.fitness_goals }}</td>
+              <td>{{ meal.meal_type }}</td>
+              <td>{{ meal.time_required }}</td>
+              <td>${{ meal.budget }}</td>
+              <td>
+                <form method="post" action="{% url 'add_to_favorites' meal.id %}">
+                  {% csrf_token %}
+                  <button type="submit" title="Add to Favorites">&#10084;</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No matching meals found. Try adjusting your preferences.</p>
+    {% endif %}
   {% endif %}
 
   <h2>Your Favorite Meals</h2>
@@ -144,22 +166,99 @@
     <thead>
       <tr>
         <th>Name</th>
+        <th>Dietary Restrictions</th>
+        <th>Fitness Goal</th>
         <th>Meal Type</th>
+        <th>Time Required (min)</th>
         <th>Budget (CAD)</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
       {% for fav in favorite_meals %}
         <tr>
-          <td>{{ fav.meal.name }}</td>
+          <td>
+            <a href="#" class="meal-link" onclick="showInstructions('{{ fav.meal.instructions }}'); return false;">
+              {{ fav.meal.name }}
+            </a>
+          </td>
+          <td>{{ fav.meal.dietary_restrictions }}</td>
+          <td>{{ fav.meal.fitness_goals }}</td>
           <td>{{ fav.meal.meal_type }}</td>
+          <td>{{ fav.meal.time_required }}</td>
           <td>${{ fav.meal.budget }}</td>
+          <td>
+            <form method="post" action="{% url 'delete_favorite' fav.id %}">
+              {% csrf_token %}
+              <button type="submit" title="Delete from Favorites">&#10060;</button>
+            </form>
+          </td>
         </tr>
       {% empty %}
-        <tr><td colspan="3">No favorite meals yet.</td></tr>
+        <tr>
+          <td colspan="7">No favorite meals yet.</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>
 
-</body>
-</html> 
+  <div id="instructionsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeInstructions()">&times;</span>
+      <h2>Instructions To Cook</h2>
+      <p id="instructionsText"></p>
+    </div>
+  </div>
+
+  {% if search_done and meals %}
+    <div id="feedbackPopup" class="feedback-popup">
+      <span class="close-feedback" onclick="closeFeedbackPopup()">&times;</span>
+      <h3>Rate Your Suggested Meals</h3>
+      <form method="post" action="{% url 'submit_feedback' %}">
+        {% csrf_token %}
+        <input type="hidden" name="meal_count" value="{{ meals|length }}">
+        {% for meal in meals %}
+          <div class="meal-feedback">
+            <strong>{{ meal.name }}</strong>
+            <input type="hidden" name="meal_name_{{ forloop.counter }}" value="{{ meal.name }}">
+            <br>
+            <label>Rating (1-5):</label><br>
+            <input type="radio" name="rating_{{ forloop.counter }}" value="1"> 1
+            <input type="radio" name="rating_{{ forloop.counter }}" value="2"> 2
+            <input type="radio" name="rating_{{ forloop.counter }}" value="3"> 3
+            <input type="radio" name="rating_{{ forloop.counter }}" value="4"> 4
+            <input type="radio" name="rating_{{ forloop.counter }}" value="5"> 5
+            <br><br>
+            <label>Comments:</label><br>
+            <textarea name="comments_{{ forloop.counter }}" rows="2" cols="30"></textarea>
+          </div>
+        {% endfor %}
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+  {% endif %}
+
+  <script>
+    function openForm() {
+      document.getElementById("mealFormModal").style.display = "block";
+    }
+    function closeForm() {
+      document.getElementById("mealFormModal").style.display = "none";
+    }
+    function showInstructions(instructions) {
+      document.getElementById("instructionsText").innerText = instructions || "No instructions provided.";
+      document.getElementById("instructionsModal").style.display = "block";
+    }
+    function closeInstructions() {
+      document.getElementById("instructionsModal").style.display = "none";
+    }
+    function closeFeedbackPopup() {
+      document.getElementById("feedbackPopup").style.display = "none";
+    }
+    window.onload = function() {
+      {% if search_done and meals %}
+        document.getElementById("feedbackPopup").style.display = "block";
+      {% endif %}
+    };
+  </script>
+{% endblock %}
