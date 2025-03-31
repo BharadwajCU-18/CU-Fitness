@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Logged Out</title>
@@ -7,5 +7,75 @@
     <h2>You have been logged out.</h2>
     <p>Thank you for using CU Fitness!</p>
     <a href="{% url 'login' %}"><button>Login Again</button></a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logged Out - CU Fitness</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+ 
+    .logout-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    
+
+    p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+    
+    a button {
+      padding: 0.75rem;
+      background: #28a745;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    a button:hover {
+      background: #218838;
+    }
+    
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="logout-container">
+    <h2>You have been logged out.</h2>
+    <p>Thank you for using CU Fitness!</p>
+    <a href="{% url 'login' %}">
+      <button>Login Again</button>
+    </a>
+  </div>
 </body>
 </html>
