@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,6 +32,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,6 +50,7 @@ INSTALLED_APPS = [
     'fitness',
     'home',
     'mealSuggestions', 
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +61,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'CU_Fitness.urls'
 
@@ -77,6 +85,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CU_Fitness.wsgi.application'
+
 
 
 # Database
@@ -139,3 +148,33 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/personalInfo/login/'
+
+# # settings.py
+# GOOGLE_API_KEY = 'AIzaSyAf6Bmb1yEjeNsyEU9SeR-ES1asIp62-TM'  
+# # settings.py
+
+# GOOGLE_PROJECT_ID = 'gen-lang-client-0577741848'  
+# settings.py
+
+# GOOGLE_OAUTH2_CREDENTIALS_FILE = r'C:\Users\saiku\Downloads\cufitness.json' # Replace with your actual path to the JSON file
+# import os
+
+# # This will dynamically build the correct path based on your project directory
+# GOOGLE_OAUTH2_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'cufitnesss.json')
+
+# # The redirect URI for OAuth2 (you can use this for authentication)
+# GOOGLE_OAUTH2_REDIRECT_URI = 'http://localhost:8000/oauth2callback/'  # Adjust for production
+
+# # The Google Cloud Project ID for your Dialogflow or other APIs
+# GOOGLE_PROJECT_ID = 'gen-lang-client-0577741848'  # Your Dialogflow project ID
+
+# # The API scopes you need
+# GOOGLE_API_SCOPES = ['https://www.googleapis.com/auth/cloud-platform']
+
+# # This is the path to your service account file (from previous code, you can rely on the first variable)
+# SERVICE_ACCOUNT_FILE = GOOGLE_OAUTH2_CREDENTIALS_FILE
+
+import os 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "Your-Default-API-Key-Here")  # Replace with your default API key
+
+
