@@ -3,7 +3,13 @@
 <head>
     <title>Welcome to CU Fitness</title>
     {% load static %}
+<<<<<<< HEAD
+
     <style>
+        /* Set the background image */
+=======
+    <style>
+>>>>>>> origin/main
         body {
             background-image: url("{% static 'images/p1.png' %}");  
             background-size: contain;  
@@ -19,18 +25,31 @@
             background-attachment: fixed;
         }
 
+<<<<<<< HEAD
+        /* Styling for the logo */
+=======
+>>>>>>> origin/main
         #logo {
             position: absolute;
             top: 20px;
             left: 50%;
+<<<<<<< HEAD
+            transform: translateX(-50%); 
+            filter: brightness(1.5); 
+=======
             transform: translateX(-50%);
             filter: brightness(1.5);
+>>>>>>> origin/main
         }
 
         #logo img {
             width: 150px;  
         }
 
+<<<<<<< HEAD
+        
+=======
+>>>>>>> origin/main
         #content {
             text-align: center;
             padding: 20px;
@@ -61,6 +80,8 @@
         #content button:hover {
             background-color: #45a049;  
         }
+<<<<<<< HEAD
+=======
 
         #loading {
             display: none;
@@ -72,14 +93,23 @@
         #chatbot-response {
             margin-top: 20px;
         }
+>>>>>>> origin/main
     </style>
 </head>
 <body>
 
+<<<<<<< HEAD
+    <!-- Logo at the top -->
+=======
+>>>>>>> origin/main
     <div id="logo">
         <img src="{% static 'images/logo.png' %}" alt="CU Fitness Logo">
     </div>
 
+<<<<<<< HEAD
+    <!-- Content in the center -->
+=======
+>>>>>>> origin/main
     <div id="content">
         <h2>Welcome to CU Fitness!</h2>
         <p>If you're new, click below to register:</p>
@@ -89,12 +119,23 @@
         <a href="{% url 'login' %}"><button>Login</button></a>
 
         <p>Need assistance? Click below to chat with our bot:</p>
+<<<<<<< HEAD
+        <a href="{% url 'chatbot_home' %}"><button>Chat with our bot</button></a>
+        <!-- personalinfo/profile.html -->
+        <a href="{% url 'set_preferences' %}"><button>Set Preferences</button></a><br>
+
+        <!-- Personalized Suggestions Link -->
+        <a href="{% url 'personalized_suggestions' %}"><button>View Personalized Suggestions</button></a><br>
+
+        <!-- Feedback Links for Workouts and Meals -->
+=======
         <!-- Chatbot button, leading to the chatbot page -->
         <a href="{% url 'chatbot_home' %}"><button>Chatbot</button></a><br>
 
         <a href="{% url 'set_preferences' %}"><button>Set Preferences</button></a><br>
         <a href="{% url 'personalized_suggestions' %}"><button>View Personalized Suggestions</button></a><br>
 
+>>>>>>> origin/main
         {% for workout in workouts %}
             <a href="{% url 'feedback_form' 'workout' workout.id %}"><button>Give Feedback on {{ workout.name }}</button></a><br>
         {% endfor %}
@@ -102,8 +143,15 @@
         {% for meal in meals %}
             <a href="{% url 'feedback_form' 'meal' meal.id %}"><button>Give Feedback on {{ meal.name }}</button></a><br>
         {% endfor %}
+<<<<<<< HEAD
+        
+
+    </div>
+
+=======
     </div>
 
     
+>>>>>>> origin/main
 </body>
 </html>

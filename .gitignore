@@ -1,3 +1,9 @@
 __pycache__/
 *.pyc
 db.sqlite3
+<<<<<<< HEAD
+.env
+.DS_Store
+bfg.jar
+=======
+>>>>>>> origin/main
