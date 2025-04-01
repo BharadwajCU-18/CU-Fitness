@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 30px;
+            margin: 20px 0;
+        }
+
+        #chat-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        #chat-history {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #4CAF50;
+            color: white;
+            align-self: flex-start;
+            max-width: 80%;
+        }
+
+        .bot-message {
+            background-color: #f1f1f1;
+            color: #333;
+            align-self: flex-end;
+            max-width: 80%;
+        }
+
+        #user-message {
+            padding: 10px;
+            width: 75%;
+            margin-right: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #loading {
+            display: none;
+            font-size: 16px;
+            color: #888;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Chat with our Fitness Bot</h1>
+
+    <div id="chat-container">
+        <!-- Chat history container -->
+        <div id="chat-history"></div>
+
+        <!-- User message input and send button -->
+        <div style="display: flex; justify-content: space-between;">
+            <input type="text" id="user_message" placeholder="Ask a question..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loading">Loading...</div>
+    </div>
+
+    <script>
+        let chatHistory = [];
+
+        function updateChatHistory() {
+            const chatHistoryContainer = document.getElementById("chat-history");
+
+            // Clear previous content
+            chatHistoryContainer.innerHTML = '';
+
+            // Render each message in the history
+            chatHistory.forEach(msg => {
+                const messageElement = document.createElement("div");
+                messageElement.classList.add("message", msg.type);
+
+                messageElement.textContent = msg.text;
+
+                chatHistoryContainer.appendChild(messageElement);
+            });
+
+            // Scroll to the bottom of the chat
+            chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = document.getElementById("user_message").value;
+            if (!message.trim()) return;
+
+            // Show loading message
+            document.getElementById("loading").style.display = "block";
+
+            // Add user message to chat history
+            chatHistory.push({ text: message, type: 'user-message' });
+            updateChatHistory();
+
+            // Send message to the backend and get the bot's response
+            fetch('/chatbot/response/?message=' + encodeURIComponent(message), {
+                method: 'GET',  // GET request
+            })
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => {
+                document.getElementById("loading").style.display = "none";  // Hide loading text
+
+                if (data.response) {
+                    // Add bot response to chat history
+                    chatHistory.push({ text: data.response, type: 'bot-message' });
+                    updateChatHistory();
+                } else {
+                    // If error, show error message from the bot
+                    chatHistory.push({ text: data.error, type: 'bot-message' });
+                    updateChatHistory();
+                }
+            })
+            .catch(error => {
+                document.getElementById("loading").style.display = "none";  // Hide loading text
+                chatHistory.push({ text: `Error: ${error.message}`, type: 'bot-message' });
+                updateChatHistory();
+            });
+
+            // Clear the input field after sending the message
+            document.getElementById("user_message").value = '';
+        }
+    </script>
+
+</body>
+
+</html>

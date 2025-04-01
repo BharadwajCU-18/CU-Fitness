@@ -64,3 +64,4 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback from {self.user.username} on {self.workout.name if self.workout else self.meal.name}"
+    
