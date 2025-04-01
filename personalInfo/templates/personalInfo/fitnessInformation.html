@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Information</title>
+    <title>Registration Form</title>
     <style>
         body {
             display: flex;
@@ -12,28 +12,45 @@
             height: 100vh;
             background-color: #f4f4f4;
             font-family: Arial, sans-serif;
+            background-image: url('https://media.licdn.com/dms/image/v2/D5612AQEz_EwPsFSQWw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1705065290862?e=2147483647&v=beta&t=MuslmkQmS6fYHoZBLb3a3HRnq1Kg60pZus8cepQWiGg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            flex-direction: column;
+            text-align: center;
         }
+
         .container {
-            background: white;
+            background: rgba(255, 255, 255, 0.7); /* Transparent background with white tint */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             width: 500px;
+            position: relative;
         }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
         .form-group {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
         }
+
         .form-group div {
             width: 48%;
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
         }
-        input, select {
+
+        input {
             display: block;
             width: calc(100% - 10px);
             padding: 8px;
@@ -41,6 +58,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         input[type="submit"] {
             background: #28a745;
             color: white;
@@ -50,22 +68,177 @@
             padding: 10px 20px;
             float: right;
         }
+
         input[type="submit"]:hover {
             background: #218838;
+        }
+
+        .gender-section {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .gender-options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 24px;
+            color: #800000;
+            padding: 20px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Sliding Effect */
+        .form-step {
+            display: none;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .form-step.active {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .form-step.prev {
+            transform: translateX(-100%);
+        }
+
+        .form-step.next {
+            transform: translateX(100%);
         }
     </style>
 </head>
 <body>
+    <!-- Centered Message -->
+    <div class="message">
+        Welcome to CU Fitness! Please complete your registration.
+    </div>
+
     <div class="container">
-        <h3>Fitness Information</h3>
-        <form method="POST" action="{% url 'fitnessInformation' %}">
+        <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
-            {{ form.as_p }}
-            <div>
-                <input type="submit" value="Register">
+            
+            <!-- Error Messages -->
+            {% if form.errors %}
+                <div class="error">
+                    <p>Please fix the following errors:</p>
+                    <ul>
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <!-- Step 1: Personal Information Form -->
+            <div class="form-step step-1 active">
+                <h3>Personal Information</h3>
+                <div class="form-group">
+                    <div>
+                        <label>First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div>
+                        <label>Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div>
+                        <label>Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div>
+                        <label>Phone Number</label>
+                        {{ form.phone_number }}
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        {{ form.password1 }}
+                    </div>
+                    <div>
+                        <label>Confirm Password</label>
+                        {{ form.password2 }}
+                    </div>
+                </div>
+
+                <!-- Gender Selection -->
+                <div class="gender-section">
+                    <label>Gender</label>
+                    <div class="gender-options">
+                        <label><input type="radio" name="gender" value="male"> Male</label>
+                        <label><input type="radio" name="gender" value="female"> Female</label>
+                        <label><input type="radio" name="gender" value="prefer-not"> Prefer not to say</label>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <div>
+                    <input type="button" value="Next" onclick="goToNextStep()">
+                </div>
+            </div>
+
+            <!-- Step 2: Fitness Information Form -->
+            <div class="form-step step-2">
+                <h3>Fitness Information</h3>
+                <div class="form-group">
+                    <div>
+                        <label>Height (in cm)</label>
+                        {{ form.height }}
+                    </div>
+                    <div>
+                        <label>Weight (in kg)</label>
+                        {{ form.weight }}
+                    </div>
+                    <div>
+                        <label>Fitness Goal</label>
+                        {{ form.fitness_goal }}
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <input type="submit" value="Register">
+                </div>
             </div>
         </form>
+
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </div>
+
+    <script>
+        function goToNextStep() {
+            // Switch steps with sliding effect
+            const step1 = document.querySelector('.step-1');
+            const step2 = document.querySelector('.step-2');
+
+            // Apply 'next' class to step 2
+            step1.classList.remove('active');
+            step1.classList.add('prev');
+            step2.classList.add('active');
+            step2.classList.remove('next');
+        }
+    </script>
 </body>
 </html>
-

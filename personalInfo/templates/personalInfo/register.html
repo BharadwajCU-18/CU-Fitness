@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
+    <title>CU Fitness Registration</title>
     <style>
         body {
             display: flex;
@@ -21,140 +21,192 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.7);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             width: 500px;
+            position: relative;
+            overflow: hidden;
         }
-        .form-group {
+
+        .form-step-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            width: 200%;
+            transition: transform 0.5s ease-in-out;
         }
-        .message {
-            text-align: center;
-            font-size: 24px;
-            color: #800000;
+
+        .form-step {
+            width: 50%;
             padding: 20px;
-            font-weight: bold;
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
-        .form-group div {
-            width: 48%;
-            margin-bottom: 15px;
-        }
+
         label {
-            display: block;
-            margin-bottom: 5px;
+            margin-top: 10px;
+            font-weight: bold;
         }
-        input {
-            display: block;
-            width: calc(100% - 10px);
+
+        input, select, textarea {
+            width: 100%;
             padding: 8px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            display: block;
         }
-        input[type="submit"] {
-            background: #28a745;
+
+        .required::after {
+            content: " *";
+            color: red;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .previous-btn, .next-btn {
+            padding: 10px 20px;
+            background-color: maroon;
             color: white;
             border: none;
             cursor: pointer;
-            width: auto;
-            padding: 10px 20px;
-            float: right;
+            flex: 1;
+            margin: 5px;
         }
-        input[type="submit"]:hover {
-            background: #218838;
+
+        .previous-btn:hover, .next-btn:hover {
+            background-color: #800000;
         }
-        .gender-section {
-            width: 100%;
-            margin-top: 15px;
-        }
+
         .gender-options {
             display: flex;
             gap: 15px;
             margin-top: 5px;
         }
+
         .gender-options label {
             display: flex;
             align-items: center;
             gap: 5px;
         }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
-    <!-- Centered Message -->
-    <div class="message">
-        Welcome to CU Fitness! Please complete your registration.
-    </div>
-
     <div class="container">
-        <h3>Personal Information</h3>
-        <form method="post" action="{% url 'register' %}">
+        <h2>Welcome to CU Fitness Registration</h2>
+        <form method="post" action="{% url 'register' %}" onsubmit="return validateStep(1)">
             {% csrf_token %}
 
-            <!-- Error Messages -->
-            {% if form.errors %}
-                <div style="color: red;">
-                    <p>Please fix the following errors:</p>
-                    <ul>
-                        {% for field in form %}
-                            {% if field.errors %}
-                                <li>{{ field.label }}: {{ field.errors|striptags }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
+            <!-- Display error messages if the username is already taken -->
+            {% if error %}
+                <div class="error">{{ error }}</div>
             {% endif %}
 
-            <div class="form-group">
-                <div>
-                    <label>First Name</label>
-                    {{ form.first_name }}
+            <div class="form-step-container">
+                <!-- Personal Information Step -->
+                <div class="form-step">
+                    <h3>Personal Information</h3>
+                    <label class="required" for="{{ user_form.first_name.id_for_label }}">First Name</label>
+                    {{ user_form.first_name }}
+                    <label class="required" for="{{ user_form.last_name.id_for_label }}">Last Name</label>
+                    {{ user_form.last_name }}
+                    <label class="required" for="{{ user_form.username.id_for_label }}">Username</label>
+                    {{ user_form.username }}
+                    <label class="required" for="{{ user_form.email.id_for_label }}">Email</label>
+                    {{ user_form.email }}
+                    <label class="required" for="{{ user_form.phone_number.id_for_label }}">Phone Number</label>
+                    {{ user_form.phone_number }}
+                    <label class="required" for="{{ user_form.password1.id_for_label }}">Password</label>
+                    {{ user_form.password1 }}
+                    <label class="required" for="{{ user_form.password2.id_for_label }}">Confirm Password</label>
+                    {{ user_form.password2 }}
+                    
+                    <label class="required">Gender</label>
+                    <div class="gender-options">
+                        <label><input type="radio" name="gender" value="male" required> Male</label>
+                        <label><input type="radio" name="gender" value="female" required> Female</label>
+                        <label><input type="radio" name="gender" value="prefer-not" required> Prefer not to say</label>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <input type="button" value="Next" class="next-btn" onclick="if(validateStep(0)) goToNextStep()">
+                    </div>
                 </div>
-                <div>
-                    <label>Last Name</label>
-                    {{ form.last_name }}
-                </div>
-                <div>
-                    <label>Username</label>
-                    {{ form.username }}
-                </div>
-                <div>
-                    <label>Email</label>
-                    {{ form.email }}
-                </div>
-                <div>
-                    <label>Phone Number</label>
-                    {{ form.phone_number }}
-                </div>
-                <div>
-                    <label>Password</label>
-                    {{ form.password1 }}
-                </div>
-                <div>
-                    <label>Confirm Password</label>
-                    {{ form.password2 }}
-                </div>
-            </div>
 
-            <div class="gender-section">
-                <label>Gender</label>
-                <div class="gender-options">
-                    <label><input type="radio" name="gender" value="male"> Male</label>
-                    <label><input type="radio" name="gender" value="female"> Female</label>
-                    <label><input type="radio" name="gender" value="prefer-not"> Prefer not to say</label>
+                <!-- Fitness Information Step -->
+                <div class="form-step">
+                    <h3>Fitness Information</h3>
+                    <label class="required" for="{{ fitness_form.age.id_for_label }}">Age</label>
+                    {{ fitness_form.age }}
+                    <label class="required" for="{{ fitness_form.height.id_for_label }}">Height (in cm)</label>
+                    {{ fitness_form.height }}
+                    <label class="required" for="{{ fitness_form.weight.id_for_label }}">Weight (in kg)</label>
+                    {{ fitness_form.weight }}
+                    <label class="required" for="{{ fitness_form.fitness_goals.id_for_label }}">Fitness Goal</label>
+                    {{ fitness_form.fitness_goals }}
+                    <label class="required" for="{{ fitness_form.dietary_preferences.id_for_label }}">Dietary Restriction</label>
+                    {{ fitness_form.dietary_preferences }}
+                    
+                    <div class="form-buttons">
+                        <input type="button" value="Previous" class="previous-btn" onclick="goToPreviousStep()">
+                        <input type="submit" value="Register" class="next-btn">
+                    </div>
                 </div>
-            </div>
-
-            <div>
-                <input type="submit" value="Next">
             </div>
         </form>
-
-        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </div>
+
+    <script>
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.form-step');
+        const formStepContainer = document.querySelector('.form-step-container');
+
+        // Function to update the visible step
+        function updateStep() {
+            formStepContainer.style.transform = `translateX(-${currentStep * 50}%)`;
+        }
+
+        // Go to next step
+        function goToNextStep() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateStep();
+            }
+        }
+
+        // Go to previous step
+        function goToPreviousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStep();
+            }
+        }
+
+        // Validate inputs before switching steps
+        function validateStep(step) {
+            let valid = true;
+            const inputs = steps[step].querySelectorAll('input[type="text"], input[type="email"], input[type="password"], input[type="radio"], input[type="number"], textarea');
+            inputs.forEach(input => {
+                if (!input.value.trim() && (input.type !== 'radio' || !document.querySelector('input[name="gender"]:checked'))) {
+                    input.style.border = '2px solid red';
+                    valid = false;
+                } else {
+                    input.style.border = '1px solid #ccc';
+                }
+            });
+            return valid;
+        }
+    </script>
 </body>
 </html>
