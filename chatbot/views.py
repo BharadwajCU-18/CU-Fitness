@@ -82,8 +82,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Set your OpenAI API key here
-openai.api_key = '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'
-
+openai.api_key = 'api-key'  # Replace with your actual OpenAI API key
 # View to render chatbot.html (home page)
 def chatbot_home(request):
     return render(request, 'chatbot/chatbot.html')
