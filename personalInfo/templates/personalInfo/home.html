@@ -1,60 +1,66 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to CU Fitness</title>
-    {% load static %}
-<<<<<<< HEAD
-
     <style>
-        /* Set the background image */
-=======
-    <style>
->>>>>>> origin/main
+        /* Basic body styling to ensure flex layout */
         body {
-            background-image: url("{% static 'images/p1.png' %}");  
-            background-size: contain;  
-            background-position: center center; 
-            height: 100vh;  
-            font-family: Arial, sans-serif;
-            color: white;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 100vh;
             margin: 0;
             padding: 0;
-            background-attachment: fixed;
+            font-family: Arial, sans-serif;
         }
 
-<<<<<<< HEAD
-        /* Styling for the logo */
-=======
->>>>>>> origin/main
+        /* Left side background image */
+        .left-side {
+            flex: 1;
+            background-image: url("{% static 'images/p1.png' %}");
+            background-size: cover; /* Cover the container */
+            background-position: center center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent repeating the image */
+            height: 100%;
+        }
+
+        /* Right side content area */
+        .right-side {
+            flex: 1;
+            background-color: black; /* Black background */
+            color: white;
+            display: flex;
+            flex-direction: column; /* Stack logo and content vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            height: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+            position: relative; /* This is for positioning the logo */
+        }
+
+        /* Logo positioned at the center of the top in the right side */
         #logo {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-<<<<<<< HEAD
-            transform: translateX(-50%); 
-            filter: brightness(1.5); 
-=======
-            transform: translateX(-50%);
-            filter: brightness(1.5);
->>>>>>> origin/main
+            text-align: center;
+            width: 100%;
+            margin-bottom: 30px; /* Space between logo and content */
         }
 
         #logo img {
-            width: 150px;  
+            width: 150px; /* Adjust the size of the logo */
         }
 
-<<<<<<< HEAD
-        
-=======
->>>>>>> origin/main
+        /* Content box */
         #content {
             text-align: center;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.5);  
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for content */
+            color: white;
+            padding: 40px;
             border-radius: 10px;
+            width: 100%;
+            max-width: 400px; /* Limit content width */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6); /* Add shadow to make it stand out */
         }
 
         #content h2 {
@@ -71,87 +77,73 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #4CAF50;  
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
+            margin: 10px;
+            width: 100%;
         }
 
         #content button:hover {
-            background-color: #45a049;  
-        }
-<<<<<<< HEAD
-=======
-
-        #loading {
-            display: none;
-            font-size: 18px;
-            color: white;
-            margin-top: 10px;
+            background-color: #45a049;
         }
 
-        #chatbot-response {
-            margin-top: 20px;
+        /* Make the content responsive on smaller screens */
+        @media (max-width: 768px) {
+            #content {
+                width: 90%;
+            }
+
+            #logo img {
+                width: 120px;
+            }
+
+            #content h2 {
+                font-size: 28px;
+            }
         }
->>>>>>> origin/main
     </style>
 </head>
 <body>
 
-<<<<<<< HEAD
-    <!-- Logo at the top -->
-=======
->>>>>>> origin/main
-    <div id="logo">
-        <img src="{% static 'images/logo.png' %}" alt="CU Fitness Logo">
+    <!-- Left side background image -->
+    <div class="left-side">
+        <!-- This side will just have the image and no content -->
     </div>
 
-<<<<<<< HEAD
-    <!-- Content in the center -->
-=======
->>>>>>> origin/main
-    <div id="content">
-        <h2>Welcome to CU Fitness!</h2>
-        <p>If you're new, click below to register:</p>
-        <a href="{% url 'register' %}"><button>Register</button></a>
+    <!-- Right side content -->
+    <div class="right-side">
+        <!-- Logo positioned at the top center in the right side -->
+        <div id="logo">
+            <img src="{% static 'images/logo.png' %}" alt="CU Fitness Logo">
+        </div>
 
-        <p>Already a member? Click below to login:</p>
-        <a href="{% url 'login' %}"><button>Login</button></a>
+        <!-- Content section -->
+        <div id="content">
+            <h2>Welcome to CU Fitness!</h2>
 
-        <p>Need assistance? Click below to chat with our bot:</p>
-<<<<<<< HEAD
-        <a href="{% url 'chatbot_home' %}"><button>Chat with our bot</button></a>
-        <!-- personalinfo/profile.html -->
-        <a href="{% url 'set_preferences' %}"><button>Set Preferences</button></a><br>
+            <!-- Register and Login Section -->
+            <p>If you're new, click below to register:</p>
+            <a href="/register"><button>Register</button></a>
 
-        <!-- Personalized Suggestions Link -->
-        <a href="{% url 'personalized_suggestions' %}"><button>View Personalized Suggestions</button></a><br>
+            <p>Already a member? Click below to login:</p>
+            <a href="/login"><button>Login</button></a>
 
-        <!-- Feedback Links for Workouts and Meals -->
-=======
-        <!-- Chatbot button, leading to the chatbot page -->
-        <a href="{% url 'chatbot_home' %}"><button>Chatbot</button></a><br>
+            <!-- Chatbot Section (always visible) -->
+            <p>Need assistance? Click below to chat with our bot:</p>
+            <a href="/chatbot_home"><button>Chat with our bot</button></a>
 
-        <a href="{% url 'set_preferences' %}"><button>Set Preferences</button></a><br>
-        <a href="{% url 'personalized_suggestions' %}"><button>View Personalized Suggestions</button></a><br>
+            <!-- Set Preferences & Get Personalized Suggestions (only visible if user is logged in) -->
+            {% if user.is_authenticated %}
+                <p>Set your preferences:</p>
+                <a href="/set_preferences"><button>Set Preferences</button></a><br>
 
->>>>>>> origin/main
-        {% for workout in workouts %}
-            <a href="{% url 'feedback_form' 'workout' workout.id %}"><button>Give Feedback on {{ workout.name }}</button></a><br>
-        {% endfor %}
-
-        {% for meal in meals %}
-            <a href="{% url 'feedback_form' 'meal' meal.id %}"><button>Give Feedback on {{ meal.name }}</button></a><br>
-        {% endfor %}
-<<<<<<< HEAD
-        
-
+                <p>View personalized suggestions:</p>
+                <a href="/personalized_suggestions"><button>Get Personalized Suggestions</button></a><br>
+            {% endif %}
+        </div>
     </div>
 
-=======
-    </div>
-
-    
->>>>>>> origin/main
 </body>
 </html>

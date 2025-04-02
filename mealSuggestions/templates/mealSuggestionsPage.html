@@ -1,31 +1,13 @@
-<<<<<<< HEAD
 {% extends "base.html" %}
 
 {% block title %}Meal Suggestions{% endblock %}
 
 {% block extra_css %}
   <style>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meal Suggestions</title>
-  <script>
-    function openForm() {
-      document.getElementById("mealFormModal").style.display = "block";
-    }
-    function closeForm() {
-      document.getElementById("mealFormModal").style.display = "none";
-    }
-  </script>
-  <style>
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
     }
->>>>>>> origin/main
     .modal {
       display: none;
       position: fixed;
@@ -34,26 +16,15 @@
       top: 0;
       width: 100%;
       height: 100%;
-<<<<<<< HEAD
-      background-color: rgba(0,0,0,0.5);
-    }
-    .modal-content {
-      background-color: #fff;
-=======
       background-color: rgba(0, 0, 0, 0.5);
     }
     .modal-content {
       background-color: white;
->>>>>>> origin/main
       padding: 20px;
       margin: 10% auto;
       width: 40%;
       border-radius: 8px;
-<<<<<<< HEAD
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-=======
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
->>>>>>> origin/main
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
     .close {
       float: right;
@@ -68,12 +39,7 @@
     .styled-form label {
       font-weight: bold;
     }
-<<<<<<< HEAD
-    .styled-form select,
-=======
-    .styled-form select, 
->>>>>>> origin/main
-    .styled-form input {
+    .styled-form select, .styled-form input {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -82,11 +48,7 @@
     }
     .styled-form button {
       background-color: #28a745;
-<<<<<<< HEAD
-      color: #fff;
-=======
       color: white;
->>>>>>> origin/main
       border: none;
       padding: 10px;
       font-size: 16px;
@@ -110,7 +72,6 @@
     th {
       background-color: #f4f4f4;
     }
-<<<<<<< HEAD
     a.meal-link {
       color: #007bff;
       text-decoration: none;
@@ -127,7 +88,7 @@
       border: 1px solid #ccc;
       padding: 15px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       z-index: 100;
       width: 350px;
     }
@@ -146,14 +107,7 @@
 
 {% block content %}
   <h1>Meal Suggestions</h1>
-=======
-  </style>
-</head>
-<body>
 
-  <h1>Meal Suggestions</h1>
-
->>>>>>> origin/main
   <button onclick="openForm()">Get Meal Suggestions</button>
 
   <div id="mealFormModal" class="modal">
@@ -168,7 +122,6 @@
     </div>
   </div>
 
-<<<<<<< HEAD
   {% if search_done %}
     {% if meals %}
       <h2>Matching Meals</h2>
@@ -210,43 +163,6 @@
     {% else %}
       <p>No matching meals found. Try adjusting your preferences.</p>
     {% endif %}
-=======
-  {% if meals %}
-    <h2>Matching Meals</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Dietary Restrictions</th>
-          <th>Fitness Goal</th>
-          <th>Meal Type</th>
-          <th>Time Required (min)</th>
-          <th>Budget (CAD)</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for meal in meals %}
-          <tr>
-            <td>{{ meal.name }}</td>
-            <td>{{ meal.dietary_restrictions }}</td>
-            <td>{{ meal.fitness_goals }}</td>
-            <td>{{ meal.meal_type }}</td>
-            <td>{{ meal.time_required }}</td>
-            <td>${{ meal.budget }}</td>
-            <td>
-              <form method="post" action="{% url 'add_to_favorites' meal.id %}">
-                {% csrf_token %}
-                <button type="submit">Add to Favorites</button>
-              </form>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No matching meals found. Try adjusting your preferences.</p>
->>>>>>> origin/main
   {% endif %}
 
   <h2>Your Favorite Meals</h2>
@@ -254,23 +170,17 @@
     <thead>
       <tr>
         <th>Name</th>
-<<<<<<< HEAD
         <th>Dietary Restrictions</th>
         <th>Fitness Goal</th>
         <th>Meal Type</th>
         <th>Time Required (min)</th>
         <th>Budget (CAD)</th>
         <th>Action</th>
-=======
-        <th>Meal Type</th>
-        <th>Budget (CAD)</th>
->>>>>>> origin/main
       </tr>
     </thead>
     <tbody>
       {% for fav in favorite_meals %}
         <tr>
-<<<<<<< HEAD
           <td>
             <a href="#" class="meal-link" onclick="showInstructions('{{ fav.meal.instructions }}'); return false;">
               {{ fav.meal.name }}
@@ -292,19 +202,10 @@
         <tr>
           <td colspan="7">No favorite meals yet.</td>
         </tr>
-=======
-          <td>{{ fav.meal.name }}</td>
-          <td>{{ fav.meal.meal_type }}</td>
-          <td>${{ fav.meal.budget }}</td>
-        </tr>
-      {% empty %}
-        <tr><td colspan="3">No favorite meals yet.</td></tr>
->>>>>>> origin/main
       {% endfor %}
     </tbody>
   </table>
 
-<<<<<<< HEAD
   <div id="instructionsModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeInstructions()">&times;</span>
@@ -345,27 +246,32 @@
     function openForm() {
       document.getElementById("mealFormModal").style.display = "block";
     }
+  
     function closeForm() {
       document.getElementById("mealFormModal").style.display = "none";
     }
+  
     function showInstructions(instructions) {
       document.getElementById("instructionsText").innerText = instructions || "No instructions provided.";
       document.getElementById("instructionsModal").style.display = "block";
     }
+  
     function closeInstructions() {
       document.getElementById("instructionsModal").style.display = "none";
     }
+  
     function closeFeedbackPopup() {
       document.getElementById("feedbackPopup").style.display = "none";
     }
+  
     window.onload = function() {
       {% if search_done and meals %}
+        // This will be executed if both conditions are true
         document.getElementById("feedbackPopup").style.display = "block";
+      {% else %}
+        // Optional: handle the case where the condition is false (no meals or search not done)
+        console.log("No meals or search is not done.");
       {% endif %}
     };
   </script>
 {% endblock %}
-=======
-</body>
-</html> 
->>>>>>> origin/main

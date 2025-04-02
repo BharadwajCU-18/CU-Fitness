@@ -42,7 +42,6 @@ class FavoriteMeal(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.meal.name}"
-<<<<<<< HEAD
     
 class RecommendationFeedback(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -56,5 +55,3 @@ class RecommendationFeedback(models.Model):
     
     
     
-=======
->>>>>>> origin/main

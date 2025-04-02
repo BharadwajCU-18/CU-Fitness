@@ -25,10 +25,15 @@
 # ]
 from django.contrib import admin
 from django.urls import path, include
-from personalInfo.views import home_view
+# from personalInfo.views import home_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('personalInfo.urls')),
+    path('chatbot/', include('chatbot.urls')),  # Include chatbot app URLs
+    path('fitness/', include('fitness.urls')),  # Include fitness app URLs
+    path('mealSuggestions/', include('mealSuggestions.urls')),  # Include mealSuggestions app URLs
+    path('home/', include('home.urls')),  # Include home app URLs
+    
 ]

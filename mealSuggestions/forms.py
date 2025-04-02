@@ -1,6 +1,7 @@
 from django import forms
 
 class MealPreferencesForm(forms.Form):
+    # Choices for dietary restrictions, fitness goals, and meal preferences
     DIETARY_CHOICES = [
         ('vegetarian', 'Vegetarian'),
         ('gluten_free', 'Gluten-Free'),
@@ -21,28 +22,29 @@ class MealPreferencesForm(forms.Form):
         ('no_preferences', 'No Meal Preferences'),
     ]
 
-<<<<<<< HEAD
+    # Form fields
     dietary_restrictions = forms.ChoiceField(choices=DIETARY_CHOICES, required=True)
     fitness_goals = forms.ChoiceField(choices=FITNESS_GOALS, required=True)
     meal_preferences = forms.ChoiceField(choices=MEAL_PREFERENCES, required=True)
 
-# class RecommendationFeedbackForm(forms.Form):
-#     # The meal_name is passed via a hidden input so it's not included here.
-#     RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
-#     rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.RadioSelect, required=True)
-#     comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}), required=False)
-class RecommendationFeedbackForm(forms.Form):
-    pass
-=======
+    # Optional fields for additional flexibility (can be used for future extensions)
     TIME_AVAILABILITY = [
         ('10_min', '10 min'),
         ('20_min', '20 min'),
         ('30_min', '30 min+'),
     ]
-
-    dietary_restrictions = forms.ChoiceField(choices=DIETARY_CHOICES, required=True)
-    fitness_goals = forms.ChoiceField(choices=FITNESS_GOALS, required=True)
-    meal_preferences = forms.ChoiceField(choices=MEAL_PREFERENCES, required=True)
     time_availability = forms.ChoiceField(choices=TIME_AVAILABILITY, required=True)
+
+    # Budget for the meal preferences
     budget = forms.DecimalField(decimal_places=2, required=True)
->>>>>>> origin/main
+
+class RecommendationFeedbackForm(forms.Form):
+    # Choices for rating
+    RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]  # Rating from 1 to 5
+    
+    # Form fields for rating and comments
+    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.RadioSelect, required=True)
+    comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}), required=False)
+
+    # Hidden field to store the meal's name when submitting feedback
+    meal_name = forms.CharField(widget=forms.HiddenInput(), required=True)
