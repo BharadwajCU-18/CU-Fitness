@@ -4,10 +4,6 @@
 
 {% block extra_css %}
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
     .modal {
       display: none;
       position: fixed;
@@ -16,15 +12,15 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0,0,0,0.5);
     }
     .modal-content {
-      background-color: white;
+      background-color: #fff;
       padding: 20px;
       margin: 10% auto;
       width: 40%;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
     .close {
       float: right;
@@ -39,7 +35,8 @@
     .styled-form label {
       font-weight: bold;
     }
-    .styled-form select, .styled-form input {
+    .styled-form select,
+    .styled-form input {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -48,7 +45,7 @@
     }
     .styled-form button {
       background-color: #28a745;
-      color: white;
+      color: #fff;
       border: none;
       padding: 10px;
       font-size: 16px;
@@ -88,7 +85,7 @@
       border: 1px solid #ccc;
       padding: 15px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       z-index: 100;
       width: 350px;
     }
@@ -107,7 +104,6 @@
 
 {% block content %}
   <h1>Meal Suggestions</h1>
-
   <button onclick="openForm()">Get Meal Suggestions</button>
 
   <div id="mealFormModal" class="modal">
@@ -246,31 +242,22 @@
     function openForm() {
       document.getElementById("mealFormModal").style.display = "block";
     }
-  
     function closeForm() {
       document.getElementById("mealFormModal").style.display = "none";
     }
-  
     function showInstructions(instructions) {
       document.getElementById("instructionsText").innerText = instructions || "No instructions provided.";
       document.getElementById("instructionsModal").style.display = "block";
     }
-  
     function closeInstructions() {
       document.getElementById("instructionsModal").style.display = "none";
     }
-  
     function closeFeedbackPopup() {
       document.getElementById("feedbackPopup").style.display = "none";
     }
-  
     window.onload = function() {
       {% if search_done and meals %}
-        // This will be executed if both conditions are true
         document.getElementById("feedbackPopup").style.display = "block";
-      {% else %}
-        // Optional: handle the case where the condition is false (no meals or search not done)
-        console.log("No meals or search is not done.");
       {% endif %}
     };
   </script>
