@@ -177,3 +177,17 @@ LOGIN_URL = '/personalInfo/login/'
 import os 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "Api-Key")  # Replace with your actual OpenAI API key
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Use Gmail's SMTP server
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True  # Use TLS (recommended for Gmail)
+EMAIL_HOST_USER = 'helpcufitness@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'Strawhats@1234'  # Your Gmail password or app password
+DEFAULT_FROM_EMAIL = 'supportteam@cufitness.com'  # The email that appears in the "From" field
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+

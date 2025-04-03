@@ -76,6 +76,7 @@
 
 from django.urls import path, include
 from  .import views  # Importing views from the personalInfo app
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # Home page
@@ -88,13 +89,23 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
 
     # Dashboard page (after login)
-    path('dashboard/', views.dashboard_view, name='dashboard'),
+    # path('dashboard/', views.dashboard_view, name='dashboard'),
 
     # Logout functionality
     path('logout/', views.logout_view, name='logout'),
+
+    path('forgot_password/', views.forgot_password_view, name='forgot_password'),
+     path('forgot_password/', auth_views.PasswordResetView.as_view(), name='forgot_password'),
+    path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
     # Include chatbot app URLs (assumes chatbot.urls.py is properly configured)
     path('chatbot/', include('chatbot.urls')),  # This will include the URLs from the chatbot app
 
     # path('fitness/', include('fitness.urls')),  # Include fitness app URLs
+    path('home/', include('home.urls')),  # Include home app URLs
+
+   
+    # path('password_reset/', views.password_reset, name='password_reset'),
 ]

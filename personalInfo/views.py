@@ -390,7 +390,7 @@ def login_view(request):
         if user is not None:
             # Log the user in
             login(request, user)
-            return redirect('dashboard')  # Redirect to the dashboard or another page after successful login
+            return redirect('home')  # Redirect to the dashboard or another page after successful login
         else:
             # Show an error message if authentication fails
             messages.error(request, 'Invalid username or password.')
@@ -399,8 +399,60 @@ def login_view(request):
     return render(request, 'personalInfo/login.html')
 @login_required
 def dashboard_view(request):
-    return render(request, 'personalInfo/dashboard.html')
+    return render(request, 'home/home.html')
 
 def logout_view(request):
     logout(request)  # This will log the user out
     return render(request, 'personalInfo/logout.html')  # Render the logout page
+
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils.encoding import force_bytes
+# from django.template.loader import render_to_string
+from django.contrib.auth.models import User
+from django.db.models import Count
+
+def forgot_password_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        # Search for users with the provided email
+        users_with_email = User.objects.filter(email=email)
+        
+        if users_with_email.count() == 1:
+            # There is exactly one user with this email
+            user = users_with_email.first()
+
+            # Create token and uid for password reset link
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_url = f"{get_current_site(request).domain}/reset/{uid}/{token}/"
+
+            # Send the password reset email
+            send_mail(
+                'Password Reset Request',
+                f'Please click the link to reset your password: {reset_url}',
+                'no-reply@cufitness.com',
+                [email],
+            )
+
+            # Show success message
+            messages.success(request, "Password reset email sent! Please check your inbox.")
+            return redirect('login')
+        
+        elif users_with_email.count() > 1:
+            # There are multiple users with this email
+            messages.error(request, "Multiple users found with this email. Please contact support.")
+            return render(request, 'personalInfo/forgot_password.html')
+
+        else:
+            # No users found with the given email
+            messages.error(request, "No user found with this email address.")
+            return render(request, 'personalInfo/forgot_password.html')  # Redirect back to the forgot password page
+
+    return render(request, 'personalInfo/forgot_password.html')  # Show the forgot password form initially
