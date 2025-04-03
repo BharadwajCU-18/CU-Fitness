@@ -14,3 +14,17 @@ class MealAdmin(admin.ModelAdmin):
         "budget",
     )
 admin.site.register(FavoriteMeal)  # Register the FavoriteMeal model with the admin site.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

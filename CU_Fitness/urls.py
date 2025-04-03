@@ -39,6 +39,7 @@ urlpatterns = [
     # path('', home_view, name='home'),
     path('mealSuggestions/', include('mealSuggestions.urls')),  # Include mealSuggestions app URLs
     path('home/', include('home.urls')), #include home app urls
+    path('profile/', include('profile.urls')),  # Include profile app URLs
 ]
 
 
