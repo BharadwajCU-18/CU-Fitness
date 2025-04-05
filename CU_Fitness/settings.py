@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'home',
     'mealSuggestions', 
     'corsheaders',
+    'payment',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
