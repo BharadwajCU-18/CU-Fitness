@@ -1,0 +1,112 @@
+
+
+
+
+
+{% extends 'base.html' %}
+{% block content %}
+  <div class="overlay"></div>
+
+  <div class="container">
+    <h2>Payment Page</h2>
+    <form method="post" class="styled-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <p><strong>Total:</strong> $9.99/month (plus tax)</p>
+      <button type="submit" class="styled-button">Pay</button>
+    </form>
+  </div>
+
+  <!-- CSS for Styling -->
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background: url('https://www.shutterstock.com/image-illustration/gym-weights-under-strong-dramatic-600nw-472696720.jpg') no-repeat center center fixed;
+          background-size: cover;
+      }
+      .overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1;
+      }
+      .container {
+          position: relative;
+          z-index: 2;
+          text-align: center;
+          color: white;
+          background-color: rgba(0, 0, 0, 0.7);
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+      }
+      h2 {
+          font-size: 32px;
+          margin-bottom: 20px;
+      }
+      /* Stylish Buttons */
+      .styled-button {
+          background: linear-gradient(90deg, #ff8c00, #ff4500);
+          color: white;
+          border: none;
+          padding: 15px 30px;
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+          border-radius: 8px;
+          transition: all 0.3s ease-in-out;
+          box-shadow: 0px 5px 15px rgba(255, 69, 0, 0.3);
+          outline: none;
+          text-decoration: none;
+          display: inline-block;
+          margin: 10px;
+      }
+      .styled-button:hover {
+          background: linear-gradient(90deg, #ff4500, #ff8c00);
+          transform: scale(1.05);
+          box-shadow: 0px 8px 20px rgba(255, 69, 0, 0.5);
+      }
+      .styled-button:active {
+          transform: scale(0.95);
+      }
+      .styled-form {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+      }
+      .styled-form label {
+          font-weight: bold;
+          color: white;
+      }
+      .styled-form input {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+      }
+      .styled-form button {
+          background-color: #28a745;
+          color: white;
+          border: none;
+          padding: 10px;
+          font-size: 16px;
+          cursor: pointer;
+          border-radius: 5px;
+          transition: 0.3s;
+      }
+      .styled-form button:hover {
+          background-color: #218838;
+      }
+  </style>
+{% endblock %}

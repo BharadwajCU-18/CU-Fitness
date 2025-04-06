@@ -25,4 +25,18 @@
         <p>Get your monthly Report </p>
     </div>
 
+    <br>
+
+    <div class="card" onclick="window.location.href='{% url 'fitness_dashboard' %}';">
+        <h2> 🏃‍♂️ Enter Fitness Progress</h2>
+        <p>Log your workout details and track your fitness journey effortlessly.</p>
+    </div>
+
+     <br>
+
+    <div class="card" onclick="window.location.href='{% url 'fitness_report_chart' %}';">
+        <h2> 📊 Fitness Progress Report</h2>
+        <p>Visualize your fitness progress with detailed reports and insights.</p>
+    </div>
+
 {% endblock %}
