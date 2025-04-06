@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Monthly Fitness Report ({{ start_date }} to {{ end_date }})</h2>
+
+<!-- Month/year selector -->
+<form method="get" class="mb-4">
+  <label for="month">Month:</label>
+  <select name="month" id="month">
+    {% for m in month_list %}
+      <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ m }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="year">Year:</label>
+  <select name="year" id="year">
+    {% for y in year_list %}
+      <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit">View</button>
+</form>
+
+<!-- Chart display -->
+<canvas id="fitnessChart" style="max-height: 300px;"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('fitnessChart').getContext('2d');
+  const fitnessChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ chart_labels|safe }},
+      datasets: [
+        {% for label, data in datasets.items %}
+          {
+            label: "{{ label }}",
+            data: {{ data|safe }},
+            borderWidth: 1
+          },
+        {% endfor %}
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: true
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          title: {
+            display: true,
+            text: 'Date'
+          }
+        },
+        y: {
+          stacked: true,
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Reps (sets × reps)'
+          }
+        }
+      }
+    }
+  });
+</script>
+
+<!-- Daily workout details -->
+{% for date, exercises in report.items %}
+  <h4>{{ date|date:"F j, Y" }}</h4>
+  <ul>
+    {% for ex in exercises %}
+      <li>{{ ex.exercise_name }}: {{ ex.sets }} sets × {{ ex.reps }} reps</li>
+    {% endfor %}
+  </ul>
+{% empty %}
+  <p>No workouts recorded this month.</p>
+{% endfor %}
+
+{% endblock %}
