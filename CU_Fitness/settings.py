@@ -32,7 +32,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'home',
     'mealSuggestions', 
     'corsheaders',
+    'workoutPlanSuggestions',
+    'fitnessProgress',
+    'fitnessReport',
 ]
 
 MIDDLEWARE = [
@@ -174,14 +177,11 @@ LOGIN_URL = '/personalInfo/login/'
 # # This is the path to your service account file (from previous code, you can rely on the first variable)
 # SERVICE_ACCOUNT_FILE = GOOGLE_OAUTH2_CREDENTIALS_FILE
 
-# import os 
-# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "sk-")  # Replace with your actual OpenAI API key
+import os 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "Api-Key")  # Replace with your actual OpenAI API key
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
 EMAIL_PORT = 587
