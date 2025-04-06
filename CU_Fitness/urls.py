@@ -36,5 +36,7 @@ urlpatterns = [
     path('mealSuggestions/', include('mealSuggestions.urls')),  # Include mealSuggestions app URLs
     path('home/', include('home.urls')),  # Include home app URLs
     path('workoutPlanSuggestions/', include('workoutPlanSuggestions.urls')),  # Include workoutPlanSuggestions app URLs
+    path('fitnessProgress/', include('fitnessProgress.urls')),  # Include fitnessProgress app URLs
+    path('fitnessReport/', include('fitnessReport.urls')),  # Include fitnessReport app URLs
     
 ]

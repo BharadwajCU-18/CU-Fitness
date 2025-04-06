@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'mealSuggestions', 
     'corsheaders',
     'workoutPlanSuggestions',
+    'fitnessProgress',
+    'fitnessReport',
 ]
 
 MIDDLEWARE = [
