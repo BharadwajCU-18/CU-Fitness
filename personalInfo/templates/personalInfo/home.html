@@ -13,15 +13,17 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            background-color: black; /* Background color for the entire page */
+            color: white; /* Default text color */
         }
 
         /* Left side background image */
         .left-side {
             flex: 1;
             background-image: url("{% static 'images/p1.png' %}");
-            background-size: cover; /* Cover the container */
-            background-position: center center; /* Center the image */
-            background-repeat: no-repeat; /* Prevent repeating the image */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
             height: 100%;
         }
 
@@ -31,20 +33,20 @@
             background-color: black; /* Black background */
             color: white;
             display: flex;
-            flex-direction: column; /* Stack logo and content vertically */
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             height: 100%;
             padding: 30px;
             box-sizing: border-box;
-            position: relative; /* This is for positioning the logo */
+            position: relative;
         }
 
-        /* Logo positioned at the center of the top in the right side */
+        /* Logo positioned at the top center in the right side */
         #logo {
             text-align: center;
             width: 100%;
-            margin-bottom: 30px; /* Space between logo and content */
+            margin-bottom: 30px;
         }
 
         #logo img {
@@ -54,13 +56,13 @@
         /* Content box */
         #content {
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for content */
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 40px;
             border-radius: 10px;
             width: 100%;
-            max-width: 400px; /* Limit content width */
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6); /* Add shadow to make it stand out */
+            max-width: 400px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
         }
 
         #content h2 {
@@ -77,7 +79,7 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #4CAF50;
+            background-color: #4CAF50; /* Green button color */
             color: white;
             border: none;
             border-radius: 5px;
@@ -87,6 +89,52 @@
 
         #content button:hover {
             background-color: #45a049;
+        }
+
+        /* Community Posts Section (scrolling area) */
+        .community-posts {
+            margin-top: 30px;
+            background-color: #333; /* Dark background for posts */
+            padding: 20px;
+            max-height: 250px;
+            overflow-y: scroll;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .community-post {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #444; /* Slightly lighter border */
+        }
+
+        .community-post:last-child {
+            border-bottom: none;
+        }
+
+        .community-post .author {
+            font-weight: bold;
+            color: #4CAF50; /* Green color for author name */
+        }
+
+        .community-post .content {
+            margin-top: 10px;
+        }
+
+        /* Social Media Links Section */
+        .social-media-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .social-media-links a {
+            margin: 0 15px;
+        }
+
+        .social-media-links img {
+            width: 40px;
         }
 
         /* Make the content responsive on smaller screens */
@@ -108,13 +156,11 @@
 <body>
 
     <!-- Left side background image -->
-    <div class="left-side">
-        <!-- This side will just have the image and no content -->
-    </div>
+    <div class="left-side"></div>
 
     <!-- Right side content -->
     <div class="right-side">
-        <!-- Logo positioned at the top center in the right side -->
+        <!-- Logo -->
         <div id="logo">
             <img src="{% static 'images/logo.png' %}" alt="CU Fitness Logo">
         </div>
@@ -130,11 +176,11 @@
             <p>Already a member? Click below to login:</p>
             <a href="/login"><button>Login</button></a>
 
-            <!-- Chatbot Section (always visible) -->
+            <!-- Chatbot Section -->
             <p>Need assistance? Click below to chat with our bot:</p>
-            <a href="/chatbot_home"><button>Chat with our bot</button></a>
+            <a href="/chatbot"><button>Chat with our bot</button></a>
 
-            <!-- Set Preferences & Get Personalized Suggestions (only visible if user is logged in) -->
+            <!-- Set Preferences & Get Personalized Suggestions -->
             {% if user.is_authenticated %}
                 <p>Set your preferences:</p>
                 <a href="/set_preferences"><button>Set Preferences</button></a><br>
@@ -142,6 +188,29 @@
                 <p>View personalized suggestions:</p>
                 <a href="/personalized_suggestions"><button>Get Personalized Suggestions</button></a><br>
             {% endif %}
+        </div>
+
+        <!-- Community Posts Section -->
+        <div class="community-posts">
+            <h3>Community Posts</h3>
+            {% for post in posts %}
+                <div class="community-post">
+                    <div class="author">{{ post.user.username }}</div>
+                    <div class="content">{{ post.content }}</div>
+                </div>
+            {% empty %}
+                <p>No community posts yet. Be the first to share!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="social-media-links">
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="{% static 'images/facebook-logo.png' %}" alt="Facebook">
+            </a>
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="{% static 'images/instagram-logo.png' %}" alt="Instagram">
+            </a>
         </div>
     </div>
 

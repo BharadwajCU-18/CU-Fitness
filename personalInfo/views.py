@@ -215,11 +215,12 @@ from personalInfo.forms import RegistrationForm, FitnessInformationForm
 from django.contrib.auth import login
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 import openai
 import logging
 import os
+from .models import CommunityPost
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -328,16 +329,20 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 # # Success view after setting preferences
 # def preferences_success(request):
 #     return render(request, 'chatbot/success.html')
-
 def home_view(request):
-    # Here, we will get data if necessary (e.g., workouts, meals), but based on your HTML,
-    # we don't need any data for now, so it's kept simple.
+    # Fetch community posts ordered by the most recent first
+    posts = CommunityPost.objects.all().order_by('-created_at')
 
-    workouts = []  # Sample empty list, replace with your actual data retrieval logic
-    meals = []     # Sample empty list, replace with your actual data retrieval logic
+    # Optionally, fetch any other data (e.g., workouts, meals) if necessary
+    workouts = []  # Placeholder, replace with actual data retrieval logic
+    meals = []     # Placeholder, replace with actual data retrieval logic
 
-    # Render the home page with the necessary data (workouts, meals, etc.)
-    return render(request, 'personalInfo/home.html', {'workouts': workouts, 'meals': meals})
+    # Render the home page with the necessary data (posts, workouts, meals, etc.)
+    return render(request, 'personalInfo/home.html', {
+        'posts': posts, 
+        'workouts': workouts, 
+        'meals': meals
+    })
 
 def register_view(request):
     if request.method == 'POST':
@@ -415,7 +420,7 @@ from django.contrib import messages
 from django.utils.encoding import force_bytes
 # from django.template.loader import render_to_string
 from django.contrib.auth.models import User
-from django.db.models import Count
+# from django.db.models import Count
 
 def forgot_password_view(request):
     if request.method == 'POST':
@@ -428,22 +433,12 @@ def forgot_password_view(request):
             # There is exactly one user with this email
             user = users_with_email.first()
 
-            # Create token and uid for password reset link
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            reset_url = f"{get_current_site(request).domain}/reset/{uid}/{token}/"
-
             # Send the password reset email
-            send_mail(
-                'Password Reset Request',
-                f'Please click the link to reset your password: {reset_url}',
-                'no-reply@cufitness.com',
-                [email],
-            )
+            send_password_reset_email(user, request)
 
             # Show success message
             messages.success(request, "Password reset email sent! Please check your inbox.")
-            return redirect('login')
+            return redirect('forgot_password')  # Ensure this matches the URL name in urls.py
         
         elif users_with_email.count() > 1:
             # There are multiple users with this email
@@ -453,6 +448,73 @@ def forgot_password_view(request):
         else:
             # No users found with the given email
             messages.error(request, "No user found with this email address.")
-            return render(request, 'personalInfo/forgot_password.html')  # Redirect back to the forgot password page
+            return render(request, 'personalInfo/forgot_password.html')
 
-    return render(request, 'personalInfo/forgot_password.html')  # Show the forgot password form initially
+    return render(request, 'personalInfo/forgot_password.html')  # This renders the form initially
+# from django.core.mail import send_mail
+from django.template.loader import render_to_string
+# from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+# from django.contrib.auth.tokens import default_token_generator
+
+# def send_password_reset_email(user, request):
+#     uid = urlsafe_base64_encode(str(user.pk).encode())
+#     token = default_token_generator.make_token(user)
+    
+#     # Render the email content using the template
+#     message = render_to_string(
+#         'personalInfo/password_reset_email.html',
+#         {
+#             'user': user,
+#             'protocol': request.scheme,
+#             'domain': request.get_host(),
+#             'uid': uid,
+#             'token': token,
+#         }
+#     )
+
+#     # Send the email using the real email backend
+#     send_mail(
+#         'Password Reset Request',  # Email subject
+#         message,  # Email body
+#         'help@cufitness.com',  # From email address
+#         [user.email],  # List of recipients
+#         fail_silently=False,
+#     )
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+
+def send_password_reset_email(user, request):
+    # Generate the uid and token for password reset
+    uid = urlsafe_base64_encode(str(user.pk).encode())
+    token = default_token_generator.make_token(user)
+    
+    # Render the email content from a template
+    message = render_to_string(
+        'personalInfo/password_reset_email.html',  # Your email template
+        {
+            'user': user,
+            'protocol': request.scheme,
+            'domain': request.get_host(),
+            'uid': uid,
+            'token': token,
+        }
+    )
+
+    # Use `DEFAULT_FROM_EMAIL` explicitly to set the sender address
+    try:
+        send_mail(
+            'Password Reset Request',
+            message,  # The message contains the rendered HTML content
+            settings.DEFAULT_FROM_EMAIL,  # Sender email
+            [user.email],  # Recipient email
+            fail_silently=False,
+            html_message=message  # Add HTML version of the email for proper rendering
+        )
+        print("Password reset email sent successfully!")
+    except Exception as e:
+        print(f"Failed to send password reset email: {e}")
+
