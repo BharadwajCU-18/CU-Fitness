@@ -339,42 +339,74 @@ def home_view(request):
     # Render the home page with the necessary data (workouts, meals, etc.)
     return render(request, 'personalInfo/home.html', {'workouts': workouts, 'meals': meals})
 
+# def register_view(request):
+#     if request.method == 'POST':
+#         user_form = RegistrationForm(request.POST)
+#         fitness_form = FitnessInformationForm(request.POST)
+
+#         if user_form.is_valid() and fitness_form.is_valid():
+#             # Save the user and hash the password
+#             user = user_form.save()
+#             user.set_password(user_form.cleaned_data['password1'])
+#             user.save()
+
+#             # Save the fitness information and link it to the user
+#             fitness_info = fitness_form.save(commit=False)
+#             fitness_info.user = user
+#             fitness_info.save()
+
+#             # Log the user in after registration
+#             login(request, user)
+
+#             # Display a success message and redirect
+#             messages.success(request, 'Registration successful! Your fitness information has been saved.')
+#             return redirect('home')  # Adjust this redirect path to where you want the user to go after registration
+#         else:
+#             # If there are errors, send them back to the template
+#             error_message = "There was an error in your form submission."
+#             return render(request, 'personalInfo/register.html', {
+#                 'user_form': user_form,
+#                 'fitness_form': fitness_form,
+#                 'error': error_message
+#             })
+
+#     else:
+#         # Create empty forms if the request is GET
+#         user_form = RegistrationForm()
+#         fitness_form = FitnessInformationForm()
+
+#     return render(request, 'personalInfo/register.html', {
+#         'user_form': user_form,
+#         'fitness_form': fitness_form
+#     })
 def register_view(request):
     if request.method == 'POST':
         user_form = RegistrationForm(request.POST)
         fitness_form = FitnessInformationForm(request.POST)
 
         if user_form.is_valid() and fitness_form.is_valid():
-            # Save the user and hash the password
-            user = user_form.save()
+            user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data['password1'])
             user.save()
 
-            # Save the fitness information and link it to the user
             fitness_info = fitness_form.save(commit=False)
             fitness_info.user = user
+            fitness_info.phone_number = user_form.cleaned_data['phone_number']
             fitness_info.save()
 
-            # Log the user in after registration
             login(request, user)
+            messages.success(request, 'Registration successful!')
+            return redirect('profile')  # Make sure this matches your profile view URL name
 
-            # Display a success message and redirect
-            messages.success(request, 'Registration successful! Your fitness information has been saved.')
-            return redirect('home')  # Adjust this redirect path to where you want the user to go after registration
         else:
-            # If there are errors, send them back to the template
-            error_message = "There was an error in your form submission."
-            return render(request, 'chatbot/register.html', {
+            return render(request, 'personalInfo/register.html', {
                 'user_form': user_form,
                 'fitness_form': fitness_form,
-                'error': error_message
+                'error': "There was an error in your form submission."
             })
-
     else:
-        # Create empty forms if the request is GET
         user_form = RegistrationForm()
         fitness_form = FitnessInformationForm()
-
     return render(request, 'personalInfo/register.html', {
         'user_form': user_form,
         'fitness_form': fitness_form

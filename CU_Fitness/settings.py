@@ -46,13 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'personalInfo',
     'chatbot',
-    'rest_framework', 
-    'fitness',
+    'rest_framework',
     'home',
     'mealSuggestions', 
     'corsheaders',
     'payment',
     'django_extensions',
+    'fitness',
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -191,5 +192,6 @@ EMAIL_HOST_USER = 'helpcufitness@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'Strawhats@1234'  # Your Gmail password or app password
 DEFAULT_FROM_EMAIL = 'supportteam@cufitness.com'  # The email that appears in the "From" field
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 

@@ -11,14 +11,47 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number', 'password1', 'password2']
+        fields = [
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'phone_number',
+            'password1',
+            'password2',
+        ]
 
 class FitnessInformationForm(forms.ModelForm):
-    age = forms.IntegerField(required=True, min_value=1, label='Age', error_messages={'required': 'Age is required'})
-    height = forms.FloatField(required=True, min_value=1, label='Height (in cm)', error_messages={'required': 'Height is required'})
-    weight = forms.FloatField(required=True, min_value=1, label='Weight (in kg)', error_messages={'required': 'Weight is required'})
-    dietary_preferences = forms.CharField(widget=forms.Textarea, required=True, label='Dietary Preferences', error_messages={'required': 'Dietary Preferences are required'})
-    fitness_goals = forms.CharField(widget=forms.Textarea, required=True, label='Fitness Goals', error_messages={'required': 'Fitness Goals are required'})
+    age = forms.IntegerField(
+        required=True,
+        min_value=1,
+        label='Age',
+        error_messages={'required': 'Age is required'}
+    )
+    height = forms.FloatField(
+        required=True,
+        min_value=1,
+        label='Height (in cm)',
+        error_messages={'required': 'Height is required'}
+    )
+    weight = forms.FloatField(
+        required=True,
+        min_value=1,
+        label='Weight (in kg)',
+        error_messages={'required': 'Weight is required'}
+    )
+    dietary_preferences = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 2}),
+        required=True,
+        label='Dietary Preferences',
+        error_messages={'required': 'Dietary Preferences are required'}
+    )
+    fitness_goals = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 2}),
+        required=True,
+        label='Fitness Goals',
+        error_messages={'required': 'Fitness Goals are required'}
+    )
 
     class Meta:
         model = FitnessInformation
