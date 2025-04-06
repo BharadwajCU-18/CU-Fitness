@@ -77,7 +77,10 @@
     a.meal-link:hover {
       text-decoration: underline;
     }
+
+    /* Feedback popup original style */
     .feedback-popup {
+      display: none;
       position: fixed;
       bottom: 20px;
       right: 20px;
@@ -98,6 +101,20 @@
       margin-bottom: 12px;
       padding-bottom: 8px;
       border-bottom: 1px solid #ccc;
+    }
+
+    .feedback-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 101;
     }
   </style>
 {% endblock %}
@@ -211,10 +228,11 @@
   </div>
 
   {% if search_done and meals %}
+    <!-- Feedback Popup -->
     <div id="feedbackPopup" class="feedback-popup">
       <span class="close-feedback" onclick="closeFeedbackPopup()">&times;</span>
       <h3>Rate Your Suggested Meals</h3>
-      <form method="post" action="{% url 'submit_feedback' %}">
+      <form method="post" action="{% url 'meal_feedback' %}">
         {% csrf_token %}
         <input type="hidden" name="meal_count" value="{{ meals|length }}">
         {% for meal in meals %}
@@ -236,6 +254,9 @@
         <button type="submit">Submit Feedback</button>
       </form>
     </div>
+
+    <!-- Floating Feedback Button -->
+    <button class="feedback-btn" onclick="openFeedbackPopup()">💬</button>
   {% endif %}
 
   <script>
@@ -252,12 +273,20 @@
     function closeInstructions() {
       document.getElementById("instructionsModal").style.display = "none";
     }
+
+    function openFeedbackPopup() {
+      document.getElementById("feedbackPopup").style.display = "block";
+      document.querySelector(".feedback-btn").style.display = "none";
+    }
     function closeFeedbackPopup() {
       document.getElementById("feedbackPopup").style.display = "none";
+      document.querySelector(".feedback-btn").style.display = "block";
     }
-    window.onload = function() {
+
+    window.onload = function () {
       {% if search_done and meals %}
         document.getElementById("feedbackPopup").style.display = "block";
+        document.querySelector(".feedback-btn").style.display = "none";
       {% endif %}
     };
   </script>

@@ -32,7 +32,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'home',
     'mealSuggestions', 
     'corsheaders',
+    'workoutPlanSuggestions',
 ]
 
 MIDDLEWARE = [
@@ -176,7 +177,6 @@ LOGIN_URL = '/personalInfo/login/'
 
 import os 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "Api-Key")  # Replace with your actual OpenAI API key
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

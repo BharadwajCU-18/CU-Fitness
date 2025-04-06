@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Workout Suggestions{% endblock %}
+
+{% block content %}
+  <h1>Workout Suggestions</h1>
+  <button onclick="openForm()">Get Workout Suggestions</button>
+
+  <!-- Workout Preferences Modal -->
+  <div id="workoutFormModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeForm()">&times;</span>
+      <h2>Workout Preferences Form</h2>
+      <form method="post" action="{% url 'submit_workout_preferences' %}" class="styled-form">
+        {% csrf_token %}
+
+        <label for="id_fitness_goal">Fitness goal:</label>
+        {{ form.fitness_goal }}
+
+        <label>Available days:</label>
+        <div class="day-checkbox-grid">
+          {% for checkbox in form.available_days %}
+            <div class="day-row">
+              <div class="day-name">{{ checkbox.choice_label }}</div>
+              <div class="day-check">{{ checkbox.tag }}</div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <button type="submit" name="submit_preferences">Submit Preferences</button>
+      </form>
+    </div>
+  </div>
+
+  {% if recommended_text %}
+    <h2>Current Workout Plan</h2>
+    <div class="workout-table">
+      {{ recommended_text|safe }}
+    </div>
+  {% endif %}
+
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="feedback-modal">
+    <div class="feedback-modal-content">
+      <span class="feedback-close" onclick="closeFeedback()">&times;</span>
+      <p>Please provide feedback for suggested workouts:</p>
+      <form method="post" action="{% url 'meal_feedback' %}" class="styled-form">
+        {% csrf_token %}
+        <label>Rating (1–5):</label>
+        <div class="rating-wrapper">
+          <div class="rating-buttons">
+            {% for radio in overall_feedback_form.rating %}
+              <div class="rating-item">
+                {{ radio.tag }}
+                <span>{{ radio.choice_label }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <label for="id_comments">Comments:</label>
+        {{ overall_feedback_form.comments }}
+
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+  </div>
+  <!-- Instructions Modal -->
+<div id="instructionsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeExerciseInstructions()">&times;</span>
+    <h2>Exercise Instructions</h2>
+    <p id="exerciseInstructionsText"></p>
+  </div>
+</div>
+  <!-- Floating Feedback Button -->
+  <button class="feedback-btn" onclick="openFeedback()">💬</button>
+
+  <script>
+    function openForm() {
+      document.getElementById("workoutFormModal").style.display = "block";
+    }
+    function closeForm() {
+      document.getElementById("workoutFormModal").style.display = "none";
+    }
+    function openFeedback() {
+      document.getElementById("feedbackModal").style.display = "block";
+      document.querySelector(".feedback-btn").style.display = "none";
+    }
+    function closeFeedback() {
+      document.getElementById("feedbackModal").style.display = "none";
+      document.querySelector(".feedback-btn").style.display = "block";
+    }
+    function showExerciseInstructions(instructions) {
+      document.getElementById("exerciseInstructionsText").innerHTML = instructions || "No instructions provided.";
+      document.getElementById("instructionsModal").style.display = "block";
+    }
+    function closeExerciseInstructions() {
+      document.getElementById("instructionsModal").style.display = "none";
+    }
+  </script>
+  
+
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      padding: 20px;
+      margin: 10% auto;
+      width: 40%;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .close {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .styled-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .day-checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 40px;
+      gap: 8px 20px;
+      align-items: center;
+    }
+    .day-row {
+      display: contents;
+    }
+    .day-name {
+      text-align: left;
+    }
+    .day-check {
+      text-align: center;
+    }
+    .workout-table table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .workout-table th, .workout-table td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .workout-table th {
+      background-color: #f5f5f5;
+    }
+    .feedback-modal {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .feedback-modal-content {
+      padding: 20px;
+    }
+    .feedback-close {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+      margin-top: -10px;
+      margin-right: -10px;
+    }
+    .feedback-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+  </style>
+{% endblock %}
