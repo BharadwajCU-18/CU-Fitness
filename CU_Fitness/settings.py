@@ -71,7 +71,7 @@ ROOT_URLCONF = 'CU_Fitness.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], 
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Ensure 'templates' directory is included
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -174,20 +174,18 @@ LOGIN_URL = '/personalInfo/login/'
 # # This is the path to your service account file (from previous code, you can rely on the first variable)
 # SERVICE_ACCOUNT_FILE = GOOGLE_OAUTH2_CREDENTIALS_FILE
 
-import os 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "Api-Key")  # Replace with your actual OpenAI API key
+# import os 
+# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "sk-")  # Replace with your actual OpenAI API key
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# Use Gmail's SMTP server
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True  # Use TLS (recommended for Gmail)
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'helpcufitness@gmail.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'Strawhats@1234'  # Your Gmail password or app password
-DEFAULT_FROM_EMAIL = 'supportteam@cufitness.com'  # The email that appears in the "From" field
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
+EMAIL_HOST_PASSWORD = 'axkg wtnt qkya eftj'  # Your email password
+DEFAULT_FROM_EMAIL = 'help@cufitness.com'  # Default sender email
