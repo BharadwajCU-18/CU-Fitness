@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import FitnessInformation
+from .models import CommunityPost
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -56,3 +57,11 @@ class FitnessInformationForm(forms.ModelForm):
     class Meta:
         model = FitnessInformation
         fields = ['age', 'height', 'weight', 'dietary_preferences', 'fitness_goals']
+
+class CommunityPostForm(forms.ModelForm):
+    class Meta:
+        model = CommunityPost
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Share your thoughts...'}),
+        }
