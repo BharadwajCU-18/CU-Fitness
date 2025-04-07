@@ -16,6 +16,8 @@ openai.api_key = settings.OPENAI_API_KEY
 def chatbot_home(request):
     return render(request, 'chatbot/chatbot.html')
 
+
+
 # Chatbot response view with personalization
 def chatbot_response(request):
     if request.method == "GET":
