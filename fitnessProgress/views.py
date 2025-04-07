@@ -14,3 +14,4 @@ def log_workout(request):
     else:
         form = WorkoutEntryForm()
     return render(request, 'fitnessProgress.html', {'form': form})
+    

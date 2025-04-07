@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # from dotenv import load_dotenv
@@ -52,7 +54,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'payment',
     'django_extensions',
-    'fitness',
     'profiles',
     'workoutPlanSuggestions',
     'fitnessProgress',
@@ -68,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    # 'fitnessReport.custom.middleware.convert_exception_to_response'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
