@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
 
+
+app_name = 'chatbot'
+
 urlpatterns = [
     path('', views.chatbot_home, name='chatbot_home'),  # This will handle requests to /chatbot/
     path('response/', views.chatbot_response, name='chatbot_response'),  # Handles the response from the bot

@@ -17,6 +17,7 @@
       background-size: contain; /* Ensure the background image is fully visible without stretching */
       background-position: center center; /* Center the image within the viewport */
       background-attachment: fixed; /* Fix the background image for parallax effect */
+      background-color: black;
     }
 
     .login-container {
@@ -105,9 +106,16 @@
   <div class="login-container">
     <div class="login-form">
       <h2>Login to CU Fitness</h2>
-      {% if error %}
-        <p class="error">{{ error }}</p>
+      
+      <!-- Display messages -->
+      {% if messages %}
+        <div class="error-messages">
+          {% for message in messages %}
+            <p class="error">{{ message }}</p>
+          {% endfor %}
+        </div>
       {% endif %}
+      
       <form method="post">
         {% csrf_token %}
         <label for="username">Username:</label>
@@ -123,7 +131,7 @@
       <div class="extra-links">
         <a href="{% url 'forgot_password' %}">Forgot Password?</a>
         <a href="{% url 'register' %}">Sign Up</a>
-
+        <a href="http://127.0.0.1:8000">Home</a>
       </div>
     </div>
   </div>

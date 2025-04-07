@@ -107,7 +107,7 @@
         <h2>Welcome to CU Fitness Registration</h2>
         <form method="post" action="{% url 'register' %}" onsubmit="return validateStep(1)">
             {% csrf_token %}
-
+            <a href="http://127.0.0.1:8000">Click here to Login Page</a>
             <!-- Display error messages if the username is already taken -->
             {% if error %}
                 <div class="error">{{ error }}</div>
@@ -141,6 +141,7 @@
                     
                     <div class="form-buttons">
                         <input type="button" value="Next" class="next-btn" onclick="if(validateStep(0)) goToNextStep()">
+                        
                     </div>
                 </div>
 

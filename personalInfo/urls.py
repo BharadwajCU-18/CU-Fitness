@@ -144,5 +144,6 @@ urlpatterns = [
 
     # Include other app URLs (home app URLs)
     path('home/', include('home.urls')),  # Include home app URLs
+    
 
 ]

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Success</title>
-</head>
+{% extends "base.html" %}
+{%block content %}
 <body>
     <h1>Success</h1>
     <p>Your preferences have been saved successfully!</p>
     <a href="{% url 'home' %}">Go back to homepage</a>
 </body>
-</html>
+{% endblock %}

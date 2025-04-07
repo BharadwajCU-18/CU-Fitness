@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Personalized Suggestions</title>
+{% extends "base.html" %}
+
+{% block content %}
     {% load static %}
     <style>
         /* Add some basic styles */
@@ -34,34 +33,29 @@
             background-color: #45a049;
         }
     </style>
-</head>
-<body>
 
-<div class="container">
-    <h2>Personalized Suggestions</h2>
+    <div class="container">
+        <h2>Personalized Suggestions</h2>
 
-    <h3>Workouts</h3>
-    <ul>
-        {% for workout in workouts %}
-            <li>{{ workout.name }} - {{ workout.category }}</li>
-            
-            <a href="{% url 'submit_feedback' item_type='workout' item_id=workout.id %}" >Give Feedback on {{ workout.name }}</a><br>
+        <h3>Workouts</h3>
+        <ul>
+            {% for workout in workouts %}
+                <li>{{ workout.name }} - {{ workout.category }}</li>
+                <a href="{% url 'chatbot:submit_feedback' item_type='workout' item_id=workout.id %}" class="button">Give Feedback on {{ workout.name }}</a><br>
+            {% empty %}
+                <li>No personalized workouts available.</li>
+            {% endfor %}
+        </ul>
 
-        {% empty %}
-            <li>No personalized workouts available.</li>
-        {% endfor %}
-    </ul>
+        <h3>Meals</h3>
+        <ul>
+            {% for meal in meals %}
+                <li>{{ meal.name }} - {{ meal.category }}</li>
+                <a href="{% url 'chatbot:submit_feedback' item_type='meal' item_id=meal.id %}" class="button">Give Feedback on {{ meal.name }}</a><br>
+            {% empty %}
+                <li>No personalized meals available.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
-    <h3>Meals</h3>
-    <ul>
-        {% for meal in meals %}
-            <li>{{ meal.name }} - {{ meal.category }}</li>
-            <a href="{% url 'submit_feedback' item_type='meal' item_id=meal.id %}" >Give Feedback on {{ meal.name }}</a><br>
-        {% empty %}
-            <li>No personalized meals available.</li>
-        {% endfor %}
-    </ul>
-</div>
-
-</body>
-</html>
+{% endblock %}

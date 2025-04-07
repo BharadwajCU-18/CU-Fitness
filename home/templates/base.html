@@ -1,3 +1,4 @@
+{%load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +13,8 @@
     }
     .sidebar {
       width: 250px;
-      background-color: #333;
-      color: white;
+      background-color: rgb(17, 15, 15);
+      color: gold;
       padding: 20px;
       height: 100vh;
       display: flex;
@@ -29,8 +30,8 @@
       font-weight: bold;
     }
     .logo img {
-      width: 40px;
-      height: 40px;
+      width: 100px;
+      height: 100px;
     }
     .nav-links {
       display: flex;
@@ -82,12 +83,22 @@
 
   <div class="sidebar">
     <div class="logo">
-      <img src="https://theconcordian.com/wp-content/uploads/2013/01/Concordia-Logo.jpg" alt="Logo"> CuFitness
+      <img src = "{% static 'images/logo.png' %}" alt="Logo">
     </div>
     <div class="nav-links">
       <a href="{% url 'home' %}">🏠 Home</a>
       <a href="{% url 'profile' %}">👤 Profile</a>
+      <a href="{% url 'chatbot:set_preferences' %}">Set Preferences</a>
+      <a href="{% url 'chatbot:personalized_suggestions' %}">Get Personalized Suggestions</a>
+      <a href="{% url 'submit_community_post' %}">Submit a Community Post</a>
       <a href="{% url 'logout' %}">🔓 Log Out</a>
+         <!-- Set Preferences & Get Personalized Suggestions -->
+         <!-- {% if user.is_authenticated %} -->
+         <!-- <p>Set your preferences:</p>
+         <a href="/set_preferences"><button>Set Preferences</button></a><br>
+         <p>View personalized suggestions:</p>
+         <a href="/personalized_suggestions"><button>Get Personalized Suggestions</button></a><br>
+     {% endif %} -->
     </div>
   </div>
 
