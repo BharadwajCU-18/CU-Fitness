@@ -384,38 +384,43 @@ def home_view(request):
 #         'user_form': user_form,
 #         'fitness_form': fitness_form
 #     })
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib import messages
+from .forms import RegistrationForm, FitnessInformationForm
+from .models import FitnessInformation
+
 def register_view(request):
     if request.method == 'POST':
         user_form = RegistrationForm(request.POST)
         fitness_form = FitnessInformationForm(request.POST)
-
+        
         if user_form.is_valid() and fitness_form.is_valid():
+            # Save user data first
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data['password1'])
-            user.save()
-
+            user.save()  # Save the user instance
+            
+            # Now save the fitness data and link it to the user
             fitness_info = fitness_form.save(commit=False)
-            fitness_info.user = user
-            fitness_info.phone_number = user_form.cleaned_data['phone_number']
-            fitness_info.save()
-
-            login(request, user)
+            fitness_info.user = user  # Link the fitness info to the user
+            fitness_info.phone_number = user_form.cleaned_data['phone_number']  # Make sure phone number is passed
+            fitness_info.save()  # Save the fitness information
+            
+            login(request, user)  # Log the user in after registration
             messages.success(request, 'Registration successful!')
-            return redirect('profile')  # Make sure this matches your profile view URL name
-
+            return redirect('profile')  # Redirect to profile page after successful registration
         else:
-            return render(request, 'personalInfo/register.html', {
-                'user_form': user_form,
-                'fitness_form': fitness_form,
-                'error': "There was an error in your form submission."
-            })
+            messages.error(request, 'Please correct the errors below.')
     else:
         user_form = RegistrationForm()
         fitness_form = FitnessInformationForm()
+
     return render(request, 'personalInfo/register.html', {
         'user_form': user_form,
         'fitness_form': fitness_form
     })
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')

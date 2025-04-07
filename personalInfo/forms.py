@@ -23,6 +23,12 @@ class RegistrationForm(UserCreationForm):
         ]
 
 class FitnessInformationForm(forms.ModelForm):
+    phone_number = forms.CharField(
+        max_length=15,
+        required=True,
+        label='Phone Number',
+        error_messages={'required': 'Phone Number is required'}
+     )
     age = forms.IntegerField(
         required=True,
         min_value=1,
@@ -56,7 +62,7 @@ class FitnessInformationForm(forms.ModelForm):
 
     class Meta:
         model = FitnessInformation
-        fields = ['age', 'height', 'weight', 'dietary_preferences', 'fitness_goals']
+        fields = ['phone_number','age', 'height', 'weight', 'dietary_preferences', 'fitness_goals']
 
 class CommunityPostForm(forms.ModelForm):
     class Meta:

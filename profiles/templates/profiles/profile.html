@@ -1,24 +1,22 @@
-
-
 {% extends 'base.html' %}
- 
+
 {% block content %}
 <div class="container">
-<h2>Your Fitness Profile</h2>
+    <h2>Your Fitness Profile</h2>
 
-     {% if fitness_profile %}
-<p><strong>Phone Number:</strong> {{ fitness_profile.phone_number }}</p>
-<p><strong>Age:</strong> {{ fitness_profile.age }}</p>
-<p><strong>Height:</strong> {{ fitness_profile.height }} cm</p>
-<p><strong>Weight:</strong> {{ fitness_profile.weight }} kg</p>
-<p><strong>Dietary Preferences:</strong> {{ fitness_profile.dietary_preferences }}</p>
-<p><strong>Fitness Goals:</strong> {{ fitness_profile.fitness_goals }}</p>
-<a href="{% url 'update_fitness_profile' %}">Update Profile</a>
+    {% if fitness_profile %}
+        <div class="profile-section">
+            <p><strong>Phone Number:</strong> {{ fitness_profile.phone_number|default:"Not provided" }}</p>
+            <p><strong>Age:</strong> {{ fitness_profile.age|default:"Not provided" }}</p>
+            <p><strong>Height:</strong> {{ fitness_profile.height|default:"Not provided" }} cm</p>
+            <p><strong>Weight:</strong> {{ fitness_profile.weight|default:"Not provided" }} kg</p>
+            <p><strong>Dietary Preferences:</strong> {{ fitness_profile.dietary_preferences|default:"Not provided" }}</p>
+            <p><strong>Fitness Goals:</strong> {{ fitness_profile.fitness_goals|default:"Not provided" }}</p>
+        </div>
+        <a href="{% url 'update_fitness_profile' %}" class="btn btn-primary">Update Profile</a>
 
-     {% else %}
-<p>You don't have a fitness profile yet. <a href="{% url 'update_fitness_profile' %}">Create one now.</a></p>
-
-     {% endif %}
+    {% else %}
+        <p>You don't have a fitness profile yet. <a href="{% url 'update_fitness_profile' %}">Create one now.</a></p>
+    {% endif %}
 </div>
-
- {% endblock %}
+{% endblock %}
