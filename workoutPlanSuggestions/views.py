@@ -100,16 +100,27 @@ def submit_workout_preferences(request):
             available_workouts = Workout.objects.filter(fitness_goal=fitness_goal)
 
             if available_workouts.exists():
+                # prompt = (
+                #     f"You are given a list of workouts from the database. "
+                #     f"Only use workouts from this list — do NOT invent new ones. "
+                #     f"Create a personalized workout plan based on the user's selected days: {', '.join(available_days)}.\n\n"
+                #     "Assign workouts from the list to each selected day. Do not include unselected days.\n"
+                #     "Group exercises logically (e.g., Chest, Shoulders, Back, Arms, Legs).\n"
+                #     "List exercises for each day with sets and reps.\n"
+                #     "Present the output as an HTML table with columns: Day, Muscle Group, Exercises, Sets, Reps.\n\n"
+                #     "Workout Options:\n"
+                # )
                 prompt = (
-                    f"You are given a list of workouts from the database. "
-                    f"Only use workouts from this list — do NOT invent new ones. "
-                    f"Create a personalized workout plan based on the user's selected days: {', '.join(available_days)}.\n\n"
-                    "Assign workouts from the list to each selected day. Do not include unselected days.\n"
-                    "Group exercises logically (e.g., Chest, Shoulders, Back, Arms, Legs).\n"
-                    "List exercises for each day with sets and reps.\n"
-                    "Present the output as an HTML table with columns: Day, Muscle Group, Exercises, Sets, Reps.\n\n"
-                    "Workout Options:\n"
-                )
+                            f"You are given a list of workouts from the database. "
+                            f"Only use workouts from this list — do NOT invent new ones. "
+                            f"Create a personalized workout plan based on the user's selected days: {', '.join(available_days)}.\n\n"
+                            "Group exercises logically by Day and Muscle Group (e.g., Chest, Shoulders, Back).\n"
+                            "For each group, list the exercises in separate rows, but only show the Day and Muscle Group once per group "
+                            "by using HTML 'rowspan'.\n"
+                            "Present the output as an HTML table with columns: Day, Muscle Group, Exercises, Sets, Reps.\n"
+                            "Make sure the table is consistent and clean with proper rowspan attributes.\n\n"
+                            "Workout Options:\n"
+                        )
                 for workout in available_workouts:
                     prompt += f"- {workout.name} (Sets: {workout.sets}, Reps: {workout.reps}): {workout.description or ''}\n"
 

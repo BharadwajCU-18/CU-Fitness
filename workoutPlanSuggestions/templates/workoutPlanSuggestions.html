@@ -44,7 +44,7 @@
     <div class="feedback-modal-content">
       <span class="feedback-close" onclick="closeFeedback()">&times;</span>
       <p>Please provide feedback for suggested workouts:</p>
-      <form method="post" action="{% url 'meal_feedback' %}" class="styled-form">
+      <form method="post" action="{% url 'workout_feedback' %}" class="styled-form">
         {% csrf_token %}
         <label>Rating (1–5):</label>
         <div class="rating-wrapper">
