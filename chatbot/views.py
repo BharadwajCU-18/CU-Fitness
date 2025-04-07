@@ -1,206 +1,192 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-# from .forms import UserPreferencesForm
-# from .models import UserPreferences, Workout, Meal, Feedback
-
-# # View for setting user preferences
-# @login_required
-# def set_user_preferences(request):
-#     user_preferences = UserPreferences.objects.filter(user=request.user).first()
-
-#     if request.method == "POST":
-#         form = UserPreferencesForm(request.POST, instance=user_preferences)
-#         if form.is_valid():
-#             # Ensure that the user field is set correctly
-#             user_preferences = form.save(commit=False)
-#             user_preferences.user = request.user  # Set the user explicitly
-#             user_preferences.save()
-#             return redirect('preferences_success')  # Redirect to success page
-#     else:
-#         form = UserPreferencesForm(instance=user_preferences)
-
-#     return render(request, 'chatbot/set_preferences.html', {'form': form})
-
-# # View for personalized suggestions based on user preferences
-# @login_required
-# def get_personalized_suggestions(request):
-#     try:
-#         user_preferences = UserPreferences.objects.get(user=request.user)
-#     except UserPreferences.DoesNotExist:
-#         return redirect('set_user_preferences')  # Redirect to set preferences if none exist
-
-#     # Filter workouts based on user preferences
-#     workouts = Workout.objects.filter(category=user_preferences.preferred_workout_type)
-#     print("Filtered Workouts:", workouts)  # Debug print statement
-
-#     # Filter meals based on user preferences and dietary restrictions
-#     meals = Meal.objects.filter(category=user_preferences.preferred_meal_type)
-#     if user_preferences.dietary_restrictions:
-#         meals = meals.filter(ingredients__contains=user_preferences.dietary_restrictions)
-#     print("Filtered Meals:", meals)  # Debug print statement
-
-#     return render(request, 'chatbot/personalized_suggestions.html', {'workouts': workouts, 'meals': meals})
-
-# # View for submitting feedback
-# @login_required
-# def submit_feedback(request, item_type, item_id):
-#     if request.method == 'POST':
-#         rating = request.POST['rating']
-#         comments = request.POST['comments']
-        
-#         # Determine the item being rated
-#         if item_type == 'workout':
-#             item = Workout.objects.get(id=item_id)
-#         elif item_type == 'meal':
-#             item = Meal.objects.get(id=item_id)
-#         else:
-#             return redirect('error_page')  # Redirect to error page if an invalid item type is provided
-
-#         # Create feedback for the item
-#         Feedback.objects.create(user=request.user, rating=rating, comments=comments, **{item_type: item})
-
-#         return redirect('feedback_success')  # Redirect to success page
-
-#     return render(request, 'chatbot/feedback_form.html', {'item_type': item_type, 'item_id': item_id})
-
-# # View for a success message after submitting feedback
-# def feedback_success(request):
-#     return render(request, 'chatbot/feedback_success.html')
-
-# # View for success after setting user preferences
-# def preferences_success(request):
-#     return render(request, 'chatbot/success.html')
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserPreferencesForm
 from .models import UserPreferences, Workout, Meal, Feedback
 from django.http import JsonResponse
+from django.conf import settings
 import openai
 import logging
 
 # Set up logger
 logger = logging.getLogger(__name__)
+import os
 
-# Set your OpenAI API key here
-openai.api_key = 'api-key'  # Replace with your actual OpenAI API key
-# View to render chatbot.html (home page)
+openai.api_key = settings.OPENAI_API_KEY
+# Home page view
 def chatbot_home(request):
     return render(request, 'chatbot/chatbot.html')
 
-# View to handle the chatbot response (API for processing user input)
+# Chatbot response view with personalization
 def chatbot_response(request):
     if request.method == "GET":
         user_message = request.GET.get("message", "").strip()
 
-        # Validate message
         if not user_message:
             return JsonResponse({"error": "Please enter a valid message."})
 
         try:
-            # Call OpenAI API to get a response using the correct endpoint for chat models
+            # Initialize user_context
+            user_context = ""
+
+            # Add user preferences if authenticated
+            if request.user.is_authenticated:
+                try:
+                    prefs = UserPreferences.objects.get(user=request.user)
+                    user_context = (
+                        f"The user prefers {prefs.preferred_workout_type} workouts and "
+                        f"{prefs.preferred_meal_type} meals. Dietary restrictions include "
+                        f"{prefs.dietary_restrictions or 'none'}."
+                    )
+                except UserPreferences.DoesNotExist:
+                    user_context = "The user has not set any preferences."
+            else:
+                user_context = "The user is not logged in, so no preferences are available."
+
+            # Call the OpenAI API with the personalized context
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  # Use the chat-based model
+                model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "user", "content": user_message}
+                    {"role": "system", "content": "You are a friendly and helpful fitness assistant."},
+                    {"role": "system", "content": user_context},
+                    {"role": "user", "content": user_message},
                 ],
                 max_tokens=150,
                 temperature=0.7,
             )
 
-            # Extract the bot's response
             bot_response = response['choices'][0]['message']['content'].strip()
-
             return JsonResponse({"response": bot_response})
 
         except openai.error.OpenAIError as e:
             return JsonResponse({"error": f"OpenAI error occurred: {str(e)} Please try again later."})
-
         except Exception as e:
             return JsonResponse({"error": "An unexpected error occurred. Please try again later."})
 
     return JsonResponse({"error": "Invalid request method."})
+# def chatbot_response(request):
+#     if request.method == "GET":
+#         user_message = request.GET.get("message", "").strip()
 
-# View for setting user preferences
+#         if not user_message:
+#             return JsonResponse({"error": "Please enter a valid message."})
+
+#         try:
+#             user_context = ""
+
+#             # Add user preferences if authenticated
+#             if request.user.is_authenticated:
+#                 try:
+#                     prefs = UserPreferences.objects.get(user=request.user)
+#                     user_context = (
+#                         f"The user prefers {prefs.preferred_workout_type} workouts and "
+#                         f"{prefs.preferred_meal_type} meals. Dietary restrictions include "
+#                         f"{prefs.dietary_restrictions or 'none'}."
+#                     )
+#                 except UserPreferences.DoesNotExist:
+#                     user_context = "The user has not set any preferences."
+#             else:
+#                 user_context = "The user is not logged in, so no preferences are available."
+
+#             messages = [
+#                 {"role": "system", "content": "You are a helpful fitness and nutrition assistant."},
+#                 {"role": "system", "content": user_context},
+#                 {"role": "user", "content": user_message},
+#             ]
+
+#             response = openai.ChatCompletion.create(
+#                 model="gpt-3.5-turbo",
+#                 messages=messages,
+#                 max_tokens=150,
+#                 temperature=0.7,
+#             )
+
+#             bot_response = response['choices'][0]['message']['content'].strip()
+#             return JsonResponse({"response": bot_response})
+
+#         except openai.error.OpenAIError as e:
+#             return JsonResponse({"error": f"OpenAI error occurred: {str(e)} Please try again later."})
+#         except Exception as e:
+#             logger.error(f"Unexpected error: {str(e)}")
+#             return JsonResponse({"error": "An unexpected error occurred. Please try again later."})
+
+#     return JsonResponse({"error": "Invalid request method."})
+
+# Set user preferences
 @login_required
 def set_user_preferences(request):
     try:
         user_preferences = UserPreferences.objects.get(user=request.user)
     except UserPreferences.DoesNotExist:
-        user_preferences = None  # No preferences set yet, create new preferences for the user
+        user_preferences = None
 
     if request.method == "POST":
         form = UserPreferencesForm(request.POST, instance=user_preferences)
         if form.is_valid():
-            # Ensure that the user field is set correctly
-            user_preferences = form.save(commit=False)
-            user_preferences.user = request.user  # Set the user explicitly
-            user_preferences.save()
-            return redirect('preferences_success')  # Redirect to success page
+            preferences = form.save(commit=False)
+            preferences.user = request.user
+            preferences.save()
+            return redirect('chatbot:preferences_success')
     else:
         form = UserPreferencesForm(instance=user_preferences)
 
     return render(request, 'chatbot/set_preferences.html', {'form': form})
 
-# View for personalized suggestions based on user preferences
+# View for showing personalized workout/meal suggestions
 @login_required
 def get_personalized_suggestions(request):
     try:
         user_preferences = UserPreferences.objects.get(user=request.user)
     except UserPreferences.DoesNotExist:
-        return redirect('set_user_preferences')  # Redirect to set preferences if none exist
+        return redirect('chatbot:set_preferences')  # Redirect to the preferences page if not set
 
-    # Filter workouts based on user preferences
-    workouts = Workout.objects.filter(category=user_preferences.preferred_workout_type)
-    print("Filtered Workouts:", workouts)  # Debug print statement
+    # Fetch personalized workouts and meals based on user preferences
+    workouts = Workout.objects.filter(category__iexact=user_preferences.preferred_workout_type)
     if not workouts.exists():
-        workouts = None  # If no workouts match, return None
+        workouts = Workout.objects.all()  # Fallback to all workouts if none match
 
-    # Filter meals based on user preferences and dietary restrictions
-    meals = Meal.objects.filter(category=user_preferences.preferred_meal_type)
+    meals = Meal.objects.filter(category__iexact=user_preferences.preferred_meal_type)
     if user_preferences.dietary_restrictions:
-        meals = meals.filter(ingredients__contains=user_preferences.dietary_restrictions)
-    print("Filtered Meals:", meals)  # Debug print statement
-    
+        meals = meals.filter(ingredients__icontains=user_preferences.dietary_restrictions)
     if not meals.exists():
-        meals = None  # If no meals match, return None
+        meals = Meal.objects.all()  # Fallback to all meals if none match
 
-    return render(request, 'chatbot/personalized_suggestions.html', {'workouts': workouts, 'meals': meals})
-
-# View for submitting feedback
+    return render(request, 'chatbot/personalized_suggestions.html', {
+        'workouts': workouts,
+        'meals': meals,
+        'preferences': user_preferences,
+    })
+# Submit feedback for a workout or meal
 @login_required
 def submit_feedback(request, item_type, item_id):
     if request.method == 'POST':
         rating = request.POST['rating']
         comments = request.POST['comments']
-        
-        # Determine the item being rated
+
         if item_type == 'workout':
-            item = Workout.objects.get(id=item_id)
-        elif item_type == 'meal':
-            item = Meal.objects.get(id=item_id)
             try:
                 item = Workout.objects.get(id=item_id)
             except Workout.DoesNotExist:
-                return redirect('error_page')  # Redirect to error page if item does not exist
+                logger.error(f"Workout with ID {item_id} does not exist.")
+                return redirect('error_page')
         elif item_type == 'meal':
             try:
                 item = Meal.objects.get(id=item_id)
             except Meal.DoesNotExist:
-                return redirect('error_page')  # Redirect to error page if item does not exist
+                logger.error(f"Meal with ID {item_id} does not exist.")
+                return redirect('error_page')
         else:
-            return redirect('error_page')  # Redirect to error page if an invalid item type is provided
+            logger.error(f"Invalid item type: {item_type}")
+            return redirect('error_page')
 
-        # Create feedback for the item
         Feedback.objects.create(user=request.user, rating=rating, comments=comments, **{item_type: item})
-
-        return redirect('feedback_success')  # Redirect to success page
+        return redirect('chatbot:feedback_success')
 
     return render(request, 'chatbot/feedback_form.html', {'item_type': item_type, 'item_id': item_id})
 
-# View for a success message after submitting feedback
+# Success page after submitting feedback
 def feedback_success(request):
     return render(request, 'chatbot/feedback_success.html')
 
-# View for success after setting user preferences
+# Success page after setting preferences
 def preferences_success(request):
     return render(request, 'chatbot/success.html')

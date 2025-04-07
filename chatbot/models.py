@@ -40,6 +40,12 @@ class Workout(models.Model):
     def __str__(self):
         return self.name
 
+    def average_rating(self):
+        feedbacks = Feedback.objects.filter(workout=self)
+        total_rating = sum(f.rating for f in feedbacks)
+        count = feedbacks.count()
+        return total_rating / count if count else 0  # Returns 0 if no feedbacks
+
 # Model for storing Meal details
 class Meal(models.Model):
     name = models.CharField(max_length=200)
@@ -53,6 +59,12 @@ class Meal(models.Model):
     def __str__(self):
         return self.name
 
+    def average_rating(self):
+        feedbacks = Feedback.objects.filter(meal=self)
+        total_rating = sum(f.rating for f in feedbacks)
+        count = feedbacks.count()
+        return total_rating / count if count else 0  # Returns 0 if no feedbacks
+
 # Model for storing Feedback from users
 class Feedback(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -64,4 +76,3 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback from {self.user.username} on {self.workout.name if self.workout else self.meal.name}"
-    

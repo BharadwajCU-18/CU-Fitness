@@ -1,30 +1,148 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Home - Meal Planner{% endblock %}
 
 {% block content %}
-    <!-- <h1>Welcome to Meal Planner</h1> -->
+    <div class="content">
+        <style>
+            /* General body styling */
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                background-image: url('{% static "images/p2.png" %}');
+                background-size: contain; /* Ensures the background image covers the entire page */
+                background-position: center center; /* Keeps the background centered */
+                background-attachment: fixed; /* Keeps the background fixed while scrolling */
+                background-repeat: no-repeat; /* Prevents the background image from repeating */
+                height: 100vh; /* Ensures the page takes up the full viewport height */
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+                text-align: center;
+            }
 
-    <div class="card" onclick="window.location.href='{% url 'submit_meal_preferences' %}';">
-        <h2>🍽️ Meal Suggestions</h2>
-        <p>Get personalized meal recommendations based on your preferences.</p>
-    </div>
-    <br></br>
-    <div class="card" onclick="window.location.href='{% url 'submit_workout_preferences' %}';">
-        <h2>🏋️ Workout Plan Suggestions</h2>
-        <p>Get personalized Workout Plan recommendations based on your preferences.</p>
-    </div>
-    <br></br>
-    <div class="card" onclick="window.location.href='{% url 'fitness_progress' %}';">
-        <h2>🏋️ Log your Workout</h2>
-        <p>Log your workout </p>
-    </div>
-    <br></br>
-    <div class="card" onclick="window.location.href='{% url 'fitness_report' %}';">
-        <h2>📊 Fitness Report</h2>
-        <p>Get your monthly Report </p>
-    </div>
+            /* Title for the page */
+            .page-title {
+                font-size: 2.5em;
+                font-weight: bold;
+                margin-bottom: 30px;
+                color: maroon; /* Maroon color for the title */
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Adding a subtle shadow for readability */
+            }
 
-    <br>
+            /* Container for the cards */
+            .background-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Makes the cards responsive */
+                gap: 30px; /* Space between cards */
+                padding: 20px;
+                width: 100%;
+                text-align: center;
+                max-width: 1200px; /* Max width to avoid excessive stretching on large screens */
+                z-index: 1;
+            }
 
+            /* Card styling */
+            .card {
+                background-color: rgba(0, 0, 0, 0.6); /* Transparent dark background */
+                color: #fff;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+                transition: transform 0.3s, background-color 0.3s;
+                cursor: pointer;
+                font-size: 16px;
+                line-height: 1.5;
+                text-align: center;
+                min-height: 200px; /* Ensure all cards have the same height */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Card hover effect */
+            .card:hover {
+                background-color: rgba(0, 0, 0, 0.8);
+                transform: scale(1.05);
+            }
+
+            /* Card Titles */
+            .card h2 {
+                margin: 10px 0;
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            /* Responsive styles for smaller screens */
+            @media screen and (max-width: 768px) {
+                .card {
+                    padding: 15px; /* Reduce padding on mobile */
+                }
+                .card h2 {
+                    font-size: 1.2em; /* Smaller titles for mobile screens */
+                }
+            }
+        </style>
+
+        <!-- Page Title (Welcome to CU Fitness) -->
+        <div class="page-title">
+            <h1>Welcome to CU Fitness</h1>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="background-container">
+            <div class="card" onclick="window.location.href='{% url 'submit_meal_preferences' %}';">
+                <h2>🍽️ Meal Suggestions</h2>
+                <p>Get personalized meal recommendations based on your preferences.</p>
+            </div>
+            <div class="card" onclick="window.location.href='{% url 'submit_workout_preferences' %}';">
+                <h2>🏋️ Workout Plan Suggestions</h2>
+                <p>Get personalized Workout Plan recommendations based on your preferences.</p>
+            </div>
+            <div class="card" onclick="window.location.href='{% url 'fitness_progress' %}';">
+                <h2>🏋️ Log your Workout</h2>
+                <p>Log your workouts and track your progress.</p>
+            </div>
+            <div class="card" onclick="window.location.href='{% url 'fitness_report' %}';">
+                <h2>📊 Fitness Report</h2>
+                <p>Get your monthly fitness report and analyze your progress.</p>
+            </div>
+        </div>
+    </div>
+    <style>
+        .chatbot-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            text-decoration: none;
+        }
+ 
+        .chatbot-button button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 24px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+ 
+        .chatbot-button button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+    </style>
+ 
+    <a href="/chatbot" class="chatbot-button">
+        <button>💬 Chat with our fit bot</button>
+    </a>
+ 
 {% endblock %}

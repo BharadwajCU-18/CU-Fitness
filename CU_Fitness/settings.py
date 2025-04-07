@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # from dotenv import load_dotenv
 
@@ -183,8 +183,7 @@ LOGIN_URL = '/personalInfo/login/'
 # SERVICE_ACCOUNT_FILE = GOOGLE_OAUTH2_CREDENTIALS_FILE
 
 import os 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "Api-Key")  # Replace with your actual OpenAI API key
-
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "api_key")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

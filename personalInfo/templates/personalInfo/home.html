@@ -42,15 +42,26 @@
             position: relative;
         }
 
-        /* Logo positioned at the top center in the right side */
-        #logo {
+        /* Logo and Title container */
+        #logo-container {
             text-align: center;
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             margin-bottom: 30px;
         }
 
         #logo img {
             width: 150px; /* Adjust the size of the logo */
+        }
+
+        /* Title styling */
+        #logo-container h2 {
+            margin-top: 10px; /* Space between the logo and title */
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
         }
 
         /* Content box */
@@ -160,34 +171,22 @@
 
     <!-- Right side content -->
     <div class="right-side">
-        <!-- Logo -->
-        <div id="logo">
-            <img src="{% static 'images/logo.png' %}" alt="CU Fitness Logo">
+        <!-- Logo and Title -->
+        <div id="logo-container">
+            <img src="{% static 'images/logo.png' %}" alt="CU Fitness Logo" id="logo">
+            <h2>Welcome to CU Fitness</h2>
         </div>
 
         <!-- Content section -->
         <div id="content">
-            <h2>Welcome to CU Fitness!</h2>
-
-            <!-- Register and Login Section -->
             <p>If you're new, click below to register:</p>
             <a href="/register"><button>Register</button></a>
 
             <p>Already a member? Click below to login:</p>
             <a href="/login"><button>Login</button></a>
 
-            <!-- Chatbot Section -->
             <p>Need assistance? Click below to chat with our bot:</p>
             <a href="/chatbot"><button>Chat with our bot</button></a>
-
-            <!-- Set Preferences & Get Personalized Suggestions -->
-            {% if user.is_authenticated %}
-                <p>Set your preferences:</p>
-                <a href="/set_preferences"><button>Set Preferences</button></a><br>
-
-                <p>View personalized suggestions:</p>
-                <a href="/personalized_suggestions"><button>Get Personalized Suggestions</button></a><br>
-            {% endif %}
         </div>
 
         <!-- Community Posts Section -->
@@ -206,10 +205,10 @@
         <!-- Social Media Links -->
         <div class="social-media-links">
             <a href="https://www.facebook.com" target="_blank">
-                <img src="{% static 'images/facebook-logo.png' %}" alt="Facebook">
+                <img src="{% static 'images/fb.png' %}" alt="Facebook">
             </a>
             <a href="https://www.instagram.com" target="_blank">
-                <img src="{% static 'images/instagram-logo.png' %}" alt="Instagram">
+                <img src="{% static 'images/insta.png' %}" alt="Instagram">
             </a>
         </div>
     </div>
