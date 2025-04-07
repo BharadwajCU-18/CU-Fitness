@@ -26,43 +26,43 @@
 
 
 from django.shortcuts import render, redirect
-from .forms import FitnessInformationForm
+from django.contrib.auth.decorators import login_required
+from personalInfo.models import FitnessInformation
+from personalInfo.forms import FitnessInformationForm
 from .models import FitnessProfile
 
-# View to display user's fitness profile
+
+@login_required
 def profile_view(request):
-    # Ensure the user is authenticated
-    if not request.user.is_authenticated:
-        return redirect('login')  # Redirect to login page if the user is not authenticated
-    
-    # Try to fetch the fitness profile for the logged-in user
+    # Fetch the fitness profile for the logged-in user
     try:
-        fitness_profile = FitnessProfile.objects.get(user=request.user)
-    except FitnessProfile.DoesNotExist:
-        fitness_profile = None  # If the profile doesn't exist, set it to None
+        fitness_profile = FitnessInformation.objects.get(user=request.user)
+    except FitnessInformation.DoesNotExist:
+        fitness_profile = None  # Handle the case where the profile doesn't exist
+    
+    return render(request, 'profiles/profile.html', {
+        'fitness_profile': fitness_profile,
+    })
 
-    return render(request, 'profiles/profile.html', {'fitness_profile': fitness_profile})
 
-# View to update user's fitness profile
+# View to update the user's fitness profile
+@login_required
 def update_fitness_profile(request):
-    # Ensure the user is authenticated
-    if not request.user.is_authenticated:
-        return redirect('login')  # Redirect to login page if not authenticated
-    
-    # Try to fetch the user's existing fitness profile, or create a new one if it doesn't exist
+    # Try to fetch the user's existing fitness profile
     try:
-        fitness_profile = FitnessProfile.objects.get(user=request.user)
-    except FitnessProfile.DoesNotExist:
-        fitness_profile = None  # If no profile exists, initialize it as None
-    
-    # If the request method is POST, handle form submission
+        fitness_profile = FitnessInformation.objects.get(user=request.user)
+    except FitnessInformation.DoesNotExist:
+        # If no profile exists, create a new one
+        fitness_profile = FitnessInformation(user=request.user)
+
+    # Handle form submission (POST request)
     if request.method == 'POST':
         form = FitnessInformationForm(request.POST, instance=fitness_profile)
         if form.is_valid():
-            form.save()  # Save the form data (update the profile)
-            return redirect('profile')  # Redirect to profile page after saving
+            form.save()  # Save the updated fitness profile
+            return redirect('profile')  # Redirect to the profile page after saving
     else:
-        # If GET request, pre-fill the form with the existing profile data
+        # If it's a GET request, pre-fill the form with the existing profile data
         form = FitnessInformationForm(instance=fitness_profile)
 
     return render(request, 'profiles/update_fitness_profile.html', {'form': form})
